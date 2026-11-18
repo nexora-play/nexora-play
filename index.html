@@ -59,7 +59,7 @@
                     <i class="fa-solid fa-gamepad text-black text-xl font-bold"></i>
                 </div>
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-black font-cyber tracking-wider bg-gradient-to-r from-cyber-blue via-purple-400 to-cyber-purple bg-clip-text text-transparent neon-text-blue">
+                    <h1 id="adminSecretTrigger" class="text-2xl md:text-3xl font-black font-cyber tracking-wider bg-gradient-to-r from-cyber-blue via-purple-400 to-cyber-purple bg-clip-text text-transparent neon-text-blue">
                         NEXORA PLAY
                     </h1>
                     <p class="text-xs text-cyber-blue/80 tracking-widest uppercase font-cyber">Catálogo PS4 • NEXORA PLAY</p>
@@ -169,6 +169,32 @@
         </div>
     </div>
 
+
+    <!-- PANEL PRIVADO: se abre tocando cinco veces el nombre NEXORA PLAY -->
+    <div id="coverAdminModal" class="fixed inset-0 z-[80] bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-cyber-card border border-cyber-blue/40 rounded-2xl w-full max-w-lg p-5 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-cyber text-cyber-blue text-lg">Administrar carátulas</h3>
+          <button onclick="closeCoverAdmin()" class="text-gray-400 text-2xl" aria-label="Cerrar">&times;</button>
+        </div>
+        <p class="text-xs text-gray-400 mb-4">Panel privado. Los cambios se guardan en este navegador y no aparecen automáticamente en los dispositivos de tus clientes.</p>
+        <label class="block text-xs text-gray-300 mb-2">Selecciona el juego</label>
+        <select id="coverGameSelect" onchange="previewCurrentCover()" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 mb-4 text-white"></select>
+        <div class="w-36 mx-auto mb-4 aspect-[264/374] bg-black rounded-lg overflow-hidden border border-cyber-border">
+          <img id="coverAdminPreview" class="w-full h-full object-contain" alt="Vista previa de la carátula">
+        </div>
+        <label class="block text-xs text-gray-300 mb-2">Subir carátula desde tu teléfono</label>
+        <input id="coverFileInput" type="file" accept="image/*" onchange="saveUploadedCover(event)" class="block w-full text-sm text-gray-300 mb-4">
+        <label class="block text-xs text-gray-300 mb-2">O pegar enlace directo de una imagen</label>
+        <input id="coverUrlInput" type="url" placeholder="https://.../portada.jpg" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 text-white mb-3">
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="saveCoverUrl()" class="py-2 rounded-xl bg-cyber-blue text-black font-bold text-sm">Guardar enlace</button>
+          <button onclick="removeCustomCover()" class="py-2 rounded-xl border border-red-500/50 text-red-300 text-sm">Restaurar original</button>
+        </div>
+        <p id="coverAdminStatus" class="text-xs text-cyber-blue mt-3 min-h-5"></p>
+      </div>
+    </div>
+
     <!-- SCRIPT PRINCIPAL -->
     <script>
         const games = [
@@ -255,6 +281,126 @@
         ];
 
         const adminWhatsapp = '50369351203';
+
+        // Carátulas personalizadas: se guardan únicamente en este navegador.
+        const COVER_STORAGE_KEY = 'nexora_custom_covers_v1';
+        let customCovers = {};
+        try { customCovers = JSON.parse(localStorage.getItem(COVER_STORAGE_KEY) || '{}'); } catch (_) { customCovers = {}; }
+
+        function getGameCover(game) { return customCovers[game.id] || null; }
+        function persistCustomCovers() {
+            try {
+                localStorage.setItem(COVER_STORAGE_KEY, JSON.stringify(customCovers));
+                return true;
+            } catch (error) {
+                alert('No hay espacio suficiente para guardar esta imagen. Prueba una imagen más pequeña.');
+                return false;
+            }
+        }
+        function adminStatus(message) {
+            const el = document.getElementById('coverAdminStatus');
+            if (el) el.textContent = message;
+        }
+        let secretTapCount = 0, secretTapTimer = null;
+        document.addEventListener('DOMContentLoaded', () => {
+            const trigger = document.getElementById('adminSecretTrigger');
+            if (!trigger) return;
+            trigger.style.cursor = 'default';
+            trigger.addEventListener('click', () => {
+                secretTapCount++;
+                clearTimeout(secretTapTimer);
+                secretTapTimer = setTimeout(() => secretTapCount = 0, 2200);
+                if (secretTapCount >= 5) {
+                    secretTapCount = 0;
+                    const password = prompt('Acceso privado de administración:');
+                    if (password === 'NEXORA2026') openCoverAdmin();
+                    else if (password !== null) alert('Clave incorrecta.');
+                }
+            });
+        });
+        function openCoverAdmin() {
+            const select = document.getElementById('coverGameSelect');
+            select.innerHTML = games.map(g => `<option value="${g.id}">${g.id}. ${g.title}</option>`).join('');
+            document.getElementById('coverAdminModal').classList.remove('hidden');
+            document.getElementById('coverAdminModal').classList.add('flex');
+            previewCurrentCover();
+        }
+        function closeCoverAdmin() {
+            const modal = document.getElementById('coverAdminModal');
+            modal.classList.add('hidden'); modal.classList.remove('flex');
+        }
+        function previewCurrentCover() {
+            const id = Number(document.getElementById('coverGameSelect').value);
+            const game = games.find(g => g.id === id);
+            const preview = document.getElementById('coverAdminPreview');
+            const custom = customCovers[id];
+            preview.src = custom || (game ? game.cover : '');
+            document.getElementById('coverUrlInput').value = custom && !custom.startsWith('data:') ? custom : '';
+            adminStatus(custom ? 'Este juego tiene una carátula personalizada.' : 'Este juego usa la carátula automática.');
+        }
+        function applyCoverToPage(gameId, source) {
+            document.querySelectorAll(`img[data-cover-game="${gameId}"]`).forEach(img => {
+                img.onerror = () => showCoverPlaceholder(img, games.find(g => g.id === gameId)?.title || 'Juego');
+                img.onload = () => img.classList.add('cover-ready');
+                img.src = source;
+            });
+        }
+        function saveCoverUrl() {
+            const id = Number(document.getElementById('coverGameSelect').value);
+            const url = document.getElementById('coverUrlInput').value.trim();
+            if (!/^https?:\/\/.+/i.test(url)) { adminStatus('Pega un enlace válido que empiece con https://'); return; }
+            customCovers[id] = url;
+            if (persistCustomCovers()) {
+                applyCoverToPage(id, url);
+                document.getElementById('coverAdminPreview').src = url;
+                adminStatus('Carátula guardada correctamente en este navegador.');
+            }
+        }
+        function saveUploadedCover(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) { adminStatus('Selecciona un archivo de imagen.'); return; }
+            const reader = new FileReader();
+            reader.onload = () => {
+                const image = new Image();
+                image.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const maxWidth = 600;
+                    const scale = Math.min(1, maxWidth / image.width);
+                    canvas.width = Math.round(image.width * scale);
+                    canvas.height = Math.round(image.height * scale);
+                    canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+                    const id = Number(document.getElementById('coverGameSelect').value);
+                    const previous = customCovers[id];
+                    customCovers[id] = dataUrl;
+                    if (persistCustomCovers()) {
+                        document.getElementById('coverAdminPreview').src = dataUrl;
+                        document.getElementById('coverUrlInput').value = '';
+                        applyCoverToPage(id, dataUrl);
+                        adminStatus('Imagen subida y guardada en este navegador.');
+                    } else if (previous) customCovers[id] = previous;
+                    event.target.value = '';
+                };
+                image.onerror = () => adminStatus('No se pudo leer esa imagen.');
+                image.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        function removeCustomCover() {
+            const id = Number(document.getElementById('coverGameSelect').value);
+            delete customCovers[id];
+            if (persistCustomCovers()) {
+                const game = games.find(g => g.id === id);
+                document.getElementById('coverAdminPreview').src = game ? game.cover : '';
+                document.getElementById('coverUrlInput').value = '';
+                coverCache.delete(id);
+                document.querySelectorAll(`img[data-cover-game="${id}"]`).forEach(img => { img.removeAttribute('src'); img.classList.remove('cover-ready'); img.dataset.coverLoaded = '0'; });
+                loadVisibleCovers();
+                adminStatus('Carátula personalizada eliminada. Se restauró la automática.');
+            }
+        }
+
         let currentGenre = 'all';
         let selectedGames = JSON.parse(localStorage.getItem('nexora_selected_games') || '[]');
 
@@ -354,7 +500,8 @@
                 await Promise.all(images.slice(i, i + 4).map(async img => {
                     const game = games.find(item => item.id === Number(img.dataset.coverGame));
                     if (!game) return;
-                    const url = await fetchGameCover(game);
+                    const manualUrl = getGameCover(game);
+                    const url = manualUrl || await fetchGameCover(game);
                     if (url) {
                         img.onload = () => img.classList.add('cover-ready');
                         img.onerror = () => showCoverPlaceholder(img, game.title);
