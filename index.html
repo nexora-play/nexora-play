@@ -193,6 +193,10 @@
           <button onclick="removeCustomCover()" class="py-2 rounded-xl border border-red-500/50 text-red-300 text-sm">Restaurar original</button>
         </div>
         <p id="coverAdminStatus" class="text-xs text-cyber-blue mt-3 min-h-5"></p>
+        <div class="mt-4 pt-3 border-t border-cyber-border">
+          <button onclick="exportCustomCoversBackup()" class="w-full py-3 rounded-xl border border-cyber-blue text-cyber-blue font-bold text-sm">Exportar mis carátulas para publicarlas</button>
+          <p class="text-[11px] text-gray-400 mt-2">Descarga una copia de tus carátulas personalizadas. No borra ni modifica las que ya tienes.</p>
+        </div>
       </div>
     </div>
 
@@ -368,6 +372,34 @@
         function adminStatus(message) {
             const el = document.getElementById('coverAdminStatus');
             if (el) el.textContent = message;
+        }
+        async function exportCustomCoversBackup() {
+            try {
+                adminStatus('Preparando copia de seguridad de tus carátulas…');
+                await coverStorageReady;
+                const rows = await readAllStoredCovers();
+                const exported = { ...customCovers };
+                rows.forEach(item => { exported[String(item.gameId)] = item.data; });
+                // Incluye también cualquier portada antigua que siga en localStorage.
+                try {
+                    const legacy = JSON.parse(localStorage.getItem(COVER_STORAGE_KEY) || '{}');
+                    Object.entries(legacy).forEach(([id, data]) => { if (!exported[id]) exported[id] = data; });
+                } catch (_) {}
+                const count = Object.keys(exported).length;
+                if (!count) { adminStatus('No encontré carátulas personalizadas para exportar.'); return; }
+                const payload = { format: 'nexora-covers-backup-v1', exportedAt: new Date().toISOString(), covers: exported };
+                const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'NEXORA_PLAY_respaldo_caratulas.json';
+                document.body.appendChild(a); a.click(); a.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 3000);
+                adminStatus('Respaldo descargado: ' + count + ' carátulas. No se modificó ninguna portada. Envíame ese archivo para preparar la versión pública.');
+            } catch (error) {
+                console.error(error);
+                adminStatus('No se pudo exportar. Tus carátulas originales siguen guardadas en este navegador.');
+            }
         }
         let secretTapCount = 0, secretTapTimer = null;
         document.addEventListener('DOMContentLoaded', () => {
