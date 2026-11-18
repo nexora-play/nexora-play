@@ -296,47 +296,62 @@
             loadVisibleCovers();
         }
 
-        // Busca la carátula por título en Wikipedia (miniatura del artículo del juego).
-        // Así evitamos reutilizar por error la imagen de otro videojuego.
+        // Carga imágenes desde la API oficial de Wikipedia: busca el artículo
+        // del videojuego y solicita su imagen principal, sin reutilizar portadas ajenas.
         const coverCache = new Map();
-        const coverPending = new Set();
+        const coverPending = new Map();
         function normalizeCoverTitle(value) {
             return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
         }
+        function coverSearchTitle(title) {
+            return title.replace(/\s*\([^)]*\)/g, '').replace(/^EA Sports\s+/i, '').replace(/:\s*The .*$/i, '').replace(/\s*-\s*Remastered$/i, '').trim();
+        }
         async function fetchGameCover(game) {
             if (coverCache.has(game.id)) return coverCache.get(game.id);
-            const stored = sessionStorage.getItem('nexora_cover_' + game.id);
-            if (stored) { coverCache.set(game.id, stored); return stored; }
-            const queryTitle = game.title.replace(/\s*\([^)]*\)/g, '').replace(/: The .*$/i, '').trim();
-            const api = 'https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=' + encodeURIComponent('"' + queryTitle + '"') + '&gsrlimit=5&prop=pageimages&piprop=thumbnail&pithumbsize=650&format=json&origin=*';
-            try {
-                const response = await fetch(api);
-                if (!response.ok) throw new Error('No se pudo consultar la portada');
-                const data = await response.json();
-                const pages = Object.values(data.query?.pages || {});
-                const target = normalizeCoverTitle(queryTitle);
-                const significant = target.split(' ').filter(w => w.length > 2);
-                const match = pages.find(page => {
-                    const candidate = normalizeCoverTitle(page.title || '');
-                    return page.thumbnail?.source && significant.filter(word => candidate.includes(word)).length >= Math.min(2, significant.length);
-                });
-                if (!match) throw new Error('No hay una portada identificable');
-                const url = match.thumbnail.source;
-                coverCache.set(game.id, url);
-                sessionStorage.setItem('nexora_cover_' + game.id, url);
-                return url;
-            } catch (error) {
+            if (coverPending.has(game.id)) return coverPending.get(game.id);
+            const task = (async () => {
+                const title = coverSearchTitle(game.title);
+                const terms = normalizeCoverTitle(title).split(' ').filter(w => w.length > 2);
+                const search = async query => {
+                    const url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + encodeURIComponent(query) + '&srlimit=10&srnamespace=0&format=json&origin=*';
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Wikipedia search failed');
+                    return (await response.json()).query?.search || [];
+                };
+                try {
+                    let results = await search('"' + title + '" video game');
+                    if (!results.length) results = await search(title + ' video game');
+                    const ranked = results.map(page => {
+                        const candidate = normalizeCoverTitle(page.title || '');
+                        const hits = terms.filter(word => candidate.includes(word)).length;
+                        return { page, score: hits / Math.max(terms.length, 1) };
+                    }).filter(item => item.score >= 0.5).sort((a,b) => b.score-a.score);
+                    for (const item of ranked.slice(0, 4)) {
+                        const url = 'https://en.wikipedia.org/w/api.php?action=query&pageids=' + item.page.pageid + '&prop=pageimages&piprop=thumbnail|original&pithumbsize=800&format=json&origin=*';
+                        const response = await fetch(url);
+                        if (!response.ok) continue;
+                        const data = await response.json();
+                        const page = data.query?.pages?.[item.page.pageid];
+                        const image = page?.thumbnail?.source || page?.original?.source;
+                        if (image && /^https:\/\/upload\.wikimedia\.org\//i.test(image)) {
+                            coverCache.set(game.id, image);
+                            return image;
+                        }
+                    }
+                } catch (error) { console.warn('No se pudo cargar la carátula de ' + game.title, error); }
                 coverCache.set(game.id, null);
                 return null;
-            }
+            })();
+            coverPending.set(game.id, task);
+            const result = await task;
+            coverPending.delete(game.id);
+            return result;
         }
         async function loadVisibleCovers() {
             const images = [...document.querySelectorAll('img[data-cover-game]')].filter(img => img.dataset.coverLoaded !== '1');
             images.forEach(img => { img.dataset.coverLoaded = '1'; });
-            // Consultas en grupos pequeños para no saturar el servicio de imágenes.
-            for (let i = 0; i < images.length; i += 5) {
-                const batch = images.slice(i, i + 5);
-                await Promise.all(batch.map(async img => {
+            for (let i = 0; i < images.length; i += 4) {
+                await Promise.all(images.slice(i, i + 4).map(async img => {
                     const game = games.find(item => item.id === Number(img.dataset.coverGame));
                     if (!game) return;
                     const url = await fetchGameCover(game);
@@ -344,9 +359,7 @@
                         img.onload = () => img.classList.add('cover-ready');
                         img.onerror = () => showCoverPlaceholder(img, game.title);
                         img.src = url;
-                    } else {
-                        showCoverPlaceholder(img, game.title);
-                    }
+                    } else showCoverPlaceholder(img, game.title);
                 }));
             }
         }
@@ -355,7 +368,7 @@
             img.remove();
             if (host) {
                 host.classList.remove('cover-loading');
-                host.innerHTML = '<div class="cover-placeholder"><i class="fa-solid fa-gamepad text-3xl text-cyber-blue"></i><span class="font-cyber text-xs">' + title.replace(/[<>]/g, '') + '</span><small>Portada no disponible</small></div>';
+                host.innerHTML = '<div class="cover-placeholder"><i class="fa-solid fa-gamepad text-3xl text-cyber-blue"></i><span class="font-cyber text-xs">' + title.replace(/[<>]/g, '') + '</span><small>Imagen no disponible en la fuente</small></div>';
             }
         }
 
