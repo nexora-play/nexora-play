@@ -37,6 +37,13 @@
         .neon-text-blue { text-shadow: 0 0 10px rgba(0, 243, 255, 0.6); }
         .neon-text-purple { text-shadow: 0 0 10px rgba(157, 0, 255, 0.6); }
         .game-card:hover { transform: translateY(-6px); box-shadow: 0 10px 25px rgba(0, 243, 255, 0.3); }
+        .cover-frame { aspect-ratio: 264 / 374; background: #080812; display:flex; align-items:center; justify-content:center; }
+        .cover-frame img { width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .25s ease; }
+        .cover-frame img.cover-ready { opacity:1; }
+        .cover-loading { background:linear-gradient(110deg,#111124 8%,#20203b 18%,#111124 33%); background-size:200% 100%; animation:coverShimmer 1.4s linear infinite; }
+        @keyframes coverShimmer { to { background-position-x:-200%; } }
+        .cover-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px; text-align:center; color:#9ca3af; }
+        .cover-missing::after { content:"Portada no disponible"; color:#9ca3af; font:600 12px Rajdhani,sans-serif; letter-spacing:.08em; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0a0a16; }
         ::-webkit-scrollbar-thumb { background: #9d00ff; border-radius: 4px; }
@@ -268,8 +275,8 @@
                 grid.innerHTML += `
                     <div class="game-card bg-cyber-card border border-cyber-border rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300">
                         <div>
-                            <div class="relative h-64 bg-black overflow-hidden group">
-                                <img src="${game.cover}" alt="${game.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='https://images.igdb.com/igdb/image/upload/t_cover_big/co1r7f.png';">
+                            <div class="relative cover-frame bg-black overflow-hidden group">
+                                <img data-cover-game="${game.id}" alt="Carátula de ${game.title}" class="w-full h-full object-contain group-hover:scale-[1.03] transition duration-500" loading="lazy">
                                 <span class="absolute top-3 left-3 px-2.5 py-1 bg-cyber-dark/80 backdrop-blur-md border border-cyber-blue/40 text-cyber-blue font-cyber text-xs rounded-xl uppercase">#${game.id < 10 ? '0' + game.id : game.id}</span>
                                 <span class="absolute top-3 right-3 px-2.5 py-1 bg-cyber-purple/80 backdrop-blur-md border border-purple-400/40 text-purple-200 font-cyber text-xs rounded-xl">${game.size} GB</span>
                             </div>
@@ -286,6 +293,70 @@
                     </div>
                 `;
             });
+            loadVisibleCovers();
+        }
+
+        // Busca la carátula por título en Wikipedia (miniatura del artículo del juego).
+        // Así evitamos reutilizar por error la imagen de otro videojuego.
+        const coverCache = new Map();
+        const coverPending = new Set();
+        function normalizeCoverTitle(value) {
+            return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+        }
+        async function fetchGameCover(game) {
+            if (coverCache.has(game.id)) return coverCache.get(game.id);
+            const stored = sessionStorage.getItem('nexora_cover_' + game.id);
+            if (stored) { coverCache.set(game.id, stored); return stored; }
+            const queryTitle = game.title.replace(/\s*\([^)]*\)/g, '').replace(/: The .*$/i, '').trim();
+            const api = 'https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=' + encodeURIComponent('"' + queryTitle + '"') + '&gsrlimit=5&prop=pageimages&piprop=thumbnail&pithumbsize=650&format=json&origin=*';
+            try {
+                const response = await fetch(api);
+                if (!response.ok) throw new Error('No se pudo consultar la portada');
+                const data = await response.json();
+                const pages = Object.values(data.query?.pages || {});
+                const target = normalizeCoverTitle(queryTitle);
+                const significant = target.split(' ').filter(w => w.length > 2);
+                const match = pages.find(page => {
+                    const candidate = normalizeCoverTitle(page.title || '');
+                    return page.thumbnail?.source && significant.filter(word => candidate.includes(word)).length >= Math.min(2, significant.length);
+                });
+                if (!match) throw new Error('No hay una portada identificable');
+                const url = match.thumbnail.source;
+                coverCache.set(game.id, url);
+                sessionStorage.setItem('nexora_cover_' + game.id, url);
+                return url;
+            } catch (error) {
+                coverCache.set(game.id, null);
+                return null;
+            }
+        }
+        async function loadVisibleCovers() {
+            const images = [...document.querySelectorAll('img[data-cover-game]')].filter(img => img.dataset.coverLoaded !== '1');
+            images.forEach(img => { img.dataset.coverLoaded = '1'; });
+            // Consultas en grupos pequeños para no saturar el servicio de imágenes.
+            for (let i = 0; i < images.length; i += 5) {
+                const batch = images.slice(i, i + 5);
+                await Promise.all(batch.map(async img => {
+                    const game = games.find(item => item.id === Number(img.dataset.coverGame));
+                    if (!game) return;
+                    const url = await fetchGameCover(game);
+                    if (url) {
+                        img.onload = () => img.classList.add('cover-ready');
+                        img.onerror = () => showCoverPlaceholder(img, game.title);
+                        img.src = url;
+                    } else {
+                        showCoverPlaceholder(img, game.title);
+                    }
+                }));
+            }
+        }
+        function showCoverPlaceholder(img, title) {
+            const host = img.parentElement;
+            img.remove();
+            if (host) {
+                host.classList.remove('cover-loading');
+                host.innerHTML = '<div class="cover-placeholder"><i class="fa-solid fa-gamepad text-3xl text-cyber-blue"></i><span class="font-cyber text-xs">' + title.replace(/[<>]/g, '') + '</span><small>Portada no disponible</small></div>';
+            }
         }
 
         function filterGames() {
@@ -316,7 +387,7 @@
             
             document.getElementById('modalContent').innerHTML = `
                 <div class="flex flex-col md:flex-row gap-6 items-center">
-                    <img src="${game.cover}" class="w-48 h-72 object-cover rounded-2xl border border-cyber-blue/30 neon-glow-blue" alt="${game.title}">
+                    <div class="w-48 h-72 shrink-0 rounded-xl overflow-hidden bg-black border border-cyber-border cover-loading flex items-center justify-center"><img data-cover-game="${game.id}" class="w-full h-full object-contain" alt="Carátula de ${game.title}" loading="lazy"></div>
                     <div class="space-y-4 flex-1">
                         <span class="px-3 py-1 bg-cyber-blue/20 border border-cyber-blue text-cyber-blue text-xs font-cyber rounded-full uppercase">${game.genre}</span>
                         <h2 class="text-2xl font-black font-cyber">${game.title}</h2>
@@ -330,6 +401,7 @@
                 </div>
             `;
             document.getElementById('gameModal').classList.remove('hidden');
+            loadVisibleCovers();
         }
 
         function closeModal() {
