@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA PLAY - Catálogo PS4 HD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                    },
+                    colors: {
+                        cyber: {
+                            blue: '#00f3ff',
+                            purple: '#9d00ff',
+                            dark: '#0a0a16',
+                            card: '#121225',
+                            border: '#2a2a4a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Rajdhani', sans-serif; background-color: #0a0a16; color: #fff; }
+        .font-cyber { font-family: 'Orbitron', sans-serif; }
+        .neon-glow-blue { box-shadow: 0 0 15px rgba(0, 243, 255, 0.4); }
+        .neon-glow-purple { box-shadow: 0 0 15px rgba(157, 0, 255, 0.4); }
+        .neon-text-blue { text-shadow: 0 0 10px rgba(0, 243, 255, 0.6); }
+        .neon-text-purple { text-shadow: 0 0 10px rgba(157, 0, 255, 0.6); }
+        .game-card:hover { transform: translateY(-6px); box-shadow: 0 10px 25px rgba(0, 243, 255, 0.3); }
+        .cover-frame { aspect-ratio: 264 / 374; background: #080812; display:flex; align-items:center; justify-content:center; }
+        .cover-frame img { width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .25s ease; }
+        .cover-frame img.cover-ready { opacity:1; }
+        .cover-loading { background:linear-gradient(110deg,#111124 8%,#20203b 18%,#111124 33%); background-size:200% 100%; animation:coverShimmer 1.4s linear infinite; }
+        @keyframes coverShimmer { to { background-position-x:-200%; } }
+        .cover-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px; text-align:center; color:#9ca3af; }
+        .cover-missing::after { content:"Portada no disponible"; color:#9ca3af; font:600 12px Rajdhani,sans-serif; letter-spacing:.08em; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a16; }
+        ::-webkit-scrollbar-thumb { background: #9d00ff; border-radius: 4px; }
+    </style>
+</head>
+<body class="min-h-screen bg-[#0a0a16] text-white selection:bg-cyber-blue selection:text-black">
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 bg-[#0a0a16]/90 backdrop-blur-md border-b border-cyber-border">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyber-blue to-cyber-purple flex items-center justify-center neon-glow-blue">
+                    <i class="fa-solid fa-gamepad text-black text-xl font-bold"></i>
+                </div>
+                <div>
+                    <h1 id="adminSecretTrigger" class="text-2xl md:text-3xl font-black font-cyber tracking-wider bg-gradient-to-r from-cyber-blue via-purple-400 to-cyber-purple bg-clip-text text-transparent neon-text-blue">
+                        NEXORA PLAY
+                    </h1>
+                    <p class="text-xs text-cyber-blue/80 tracking-widest uppercase font-cyber">Catálogo PS4 • NEXORA PLAY</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                <button onclick="openStorageModal()" class="px-4 py-2 bg-cyber-card border border-cyber-blue/40 rounded-xl text-cyber-blue font-cyber text-sm hover:bg-cyber-blue/10 transition flex items-center gap-2">
+                    <i class="fa-solid fa-hdd"></i> Calculadora Disco
+                </button>
+                <button onclick="contactWhatsapp()" class="px-4 py-2 bg-cyber-card border border-cyber-purple/40 rounded-xl text-purple-300 font-cyber text-sm hover:bg-cyber-purple/10 transition flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </button>
+                <button onclick="openPrivateCoverAdmin()" class="w-10 h-10 rounded-xl text-gray-500 hover:text-cyber-blue hover:bg-cyber-blue/10 transition" aria-label="Opciones" title="Opciones">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- HERO BANNER -->
+        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-cyber-purple/20 via-cyber-card to-cyber-blue/20 border border-cyber-border p-8 mb-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="space-y-3 max-w-2xl">
+                <span class="px-3 py-1 bg-cyber-blue/20 border border-cyber-blue text-cyber-blue text-xs font-cyber rounded-full uppercase">Alta Definición HD</span>
+                <h2 class="text-3xl md:text-5xl font-black font-cyber tracking-wide">80 JUEGOS PARA PS4</h2>
+                <p class="text-gray-300 text-base md:text-lg">Consulta tamaños aproximados, elige tus juegos favoritos y envía tu solicitud directamente por WhatsApp.</p>
+            </div>
+            <div class="flex flex-col gap-3 w-full md:w-auto">
+                <div class="bg-cyber-card/90 border border-cyber-blue/30 rounded-2xl p-4 text-center">
+                    <span class="text-xs text-gray-400 block font-cyber">TOTAL DISPONIBLES</span>
+                    <span class="text-3xl font-black font-cyber text-cyber-blue">80 JUEGOS</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEARCH & FILTERS -->
+        <div class="flex flex-col md:flex-row gap-4 mb-8">
+            <div class="relative flex-1">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" id="searchInput" oninput="filterGames()" placeholder="Buscar juego por título..." class="w-full bg-cyber-card border border-cyber-border rounded-2xl pl-12 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-cyber-blue transition">
+            </div>
+            <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0">
+                <button onclick="setGenre('all')" id="btn-all" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-gradient-to-r from-cyber-blue to-cyber-purple text-black font-bold whitespace-nowrap">Todos</button>
+                <button onclick="setGenre('Acción')" id="btn-Acción" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap">Acción</button>
+                <button onclick="setGenre('Aventura')" id="btn-Aventura" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap">Aventura</button>
+                <button onclick="setGenre('Deportes')" id="btn-Deportes" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap">Deportes</button>
+                <button onclick="setGenre('RPG')" id="btn-RPG" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap">RPG</button>
+                <button onclick="setGenre('Peleas')" id="btn-Peleas" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap">Peleas</button>
+            </div>
+        </div>
+
+        <!-- GAMES GRID -->
+        <div id="gamesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Los juegos se cargan dinámicamente con JavaScript -->
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-cyber-border mt-20 py-8 bg-cyber-card/50 text-center">
+        <p class="text-sm text-gray-400 font-cyber">NEXORA PLAY © 2026 • Catálogo de juegos PS4</p>
+    </footer>
+
+    <!-- MODAL DE DETALLES Y SOLICITUD -->
+    <div id="gameModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-cyber-border rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-cyber-dark rounded-full border border-cyber-border flex items-center justify-center text-gray-400 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div id="modalContent" class="space-y-6">
+                <!-- Contenido dinámico del modal -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CALCULADORA DE DISCO -->
+    <div id="storageModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-cyber-border rounded-3xl max-w-md w-full p-6 relative">
+            <button onclick="closeStorageModal()" class="absolute top-4 right-4 w-10 h-10 bg-cyber-dark rounded-full border border-cyber-border flex items-center justify-center text-gray-400 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-xl font-black font-cyber text-cyber-blue mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-hdd"></i> Calculadora de Almacenamiento PS4
+            </h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-xs text-gray-400 font-cyber block mb-2">Capacidad de tu PS4:</label>
+                    <select id="ps4Capacity" onchange="calculateStorage()" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 text-white focus:outline-none focus:border-cyber-blue">
+                        <option value="500">500 GB (Real aprox. 400 GB)</option>
+                        <option value="1000" selected>1 Terabyte / 1000 GB (Real aprox. 860 GB)</option>
+                        <option value="2000">2 Terabytes / 2000 GB</option>
+                    </select>
+                </div>
+                <div class="bg-cyber-dark p-4 rounded-2xl border border-cyber-border space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">Espacio Total:</span>
+                        <span id="stoTotal" class="font-cyber font-bold">1000 GB</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-400">Juegos agregados:</span>
+                        <span id="stoSelected" class="font-cyber font-bold text-cyber-blue">0 GB</span>
+                    </div>
+                    <div class="w-full bg-cyber-border h-3 rounded-full overflow-hidden mt-2">
+                        <div id="stoBar" class="bg-gradient-to-r from-cyber-blue to-cyber-purple h-full w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400 mt-4">Los tamaños son aproximados y pueden variar según actualizaciones, edición y contenido adicional.</p>
+        </div>
+    </div>
+
+
+    <!-- PANEL PRIVADO: se abre tocando cinco veces el nombre NEXORA PLAY -->
+    <div id="coverAdminModal" class="fixed inset-0 z-[80] bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4">
+      <div class="bg-cyber-card border border-cyber-blue/40 rounded-2xl w-full max-w-lg p-5 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-cyber text-cyber-blue text-lg">Administrar carátulas</h3>
+          <button onclick="closeCoverAdmin()" class="text-gray-400 text-2xl" aria-label="Cerrar">&times;</button>
+        </div>
+        <p class="text-xs text-gray-400 mb-4">Panel privado. Los cambios se guardan en este navegador y no aparecen automáticamente en los dispositivos de tus clientes.</p>
+        <label class="block text-xs text-gray-300 mb-2">Selecciona el juego</label>
+        <select id="coverGameSelect" onchange="previewCurrentCover()" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 mb-4 text-white"></select>
+        <div class="w-36 mx-auto mb-4 aspect-[264/374] bg-black rounded-lg overflow-hidden border border-cyber-border">
+          <img id="coverAdminPreview" class="w-full h-full object-contain" alt="Vista previa de la carátula">
+        </div>
+        <label class="block text-xs text-gray-300 mb-2">Subir carátula desde tu teléfono</label>
+        <input id="coverFileInput" type="file" accept="image/*" onchange="saveUploadedCover(event)" class="block w-full text-sm text-gray-300 mb-4">
+        <label class="block text-xs text-gray-300 mb-2">O pegar enlace directo de una imagen</label>
+        <input id="coverUrlInput" type="url" placeholder="https://.../portada.jpg" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 text-white mb-3">
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="saveCoverUrl()" class="py-2 rounded-xl bg-cyber-blue text-black font-bold text-sm">Guardar enlace</button>
+          <button onclick="removeCustomCover()" class="py-2 rounded-xl border border-red-500/50 text-red-300 text-sm">Restaurar original</button>
+        </div>
+        <p id="coverAdminStatus" class="text-xs text-cyber-blue mt-3 min-h-5"></p>
+      </div>
+    </div>
+
+    <!-- SCRIPT PRINCIPAL -->
+    <script>
+        const games = [
+            { id: 1, title: "God of War (2018)", genre: "Acción", size: 39.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1r7f.png", desc: "Kratos, ahora convertido en padre, debe guiar a su hijo en un peligroso viaje por tierras nórdicas." },
+            { id: 2, title: "Marvel's Spider-Man", genre: "Acción", size: 45.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png", desc: "Experimenta las acrobacias, improvisación y telarañas del trepamuros más famoso de Nueva York." },
+            { id: 3, title: "Horizon Zero Dawn", genre: "Aventura", size: 48.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vzz.png", desc: "Explora un mundo exuberante habitado por misteriosas criaturas mecanizadas en el papel de la cazadora Aloy." },
+            { id: 4, title: "Uncharted 4: El desenlace del ladrón", genre: "Aventura", size: 48.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1tzz.png", desc: "Nathan Drake se embarca en una aventura trotamundos en busca de una conspiración pirata." },
+            { id: 5, title: "Grand Theft Auto V", genre: "Acción", size: 47.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1v7v.png", desc: "Tres criminales muy diferentes se arriesgan a todo en una serie de atracos audaces y peligrosos." },
+            { id: 6, title: "The Last of Us Remastered", genre: "Aventura", size: 43.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1r7f.png", desc: "En una civilización devastada, Joel y Ellie deben sobrevivir a duras pruebas en Estados Unidos." },
+            { id: 7, title: "Batman: Arkham Knight", genre: "Acción", size: 45.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1q0k.png", desc: "El final épico de la trilogía Arkham con el Batmóvil totalmente jugable recorriendo Gotham." },
+            { id: 8, title: "Mortal Kombat 11", genre: "Peleas", size: 39.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1u2g.png", desc: "La legendaria franquicia regresa con opciones de personalización de variantes sin precedentes." },
+            { id: 9, title: "Injustice 2", genre: "Peleas", size: 41.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1q26.png", desc: "Crea y potencia la versión definitiva de tus superhéroes y villanos favoritos de DC." },
+            { id: 10, title: "Street Fighter V", genre: "Peleas", size: 28.4, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1q2p.png", desc: "Combates intensos cara a cara con gráficos espectaculares impulsados por Unreal Engine 4." },
+            { id: 11, title: "FIFA 22", genre: "Deportes", size: 37.8, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co3p3w.png", desc: "Experimenta los avances tecnológicos en jugabilidad con avances HyperMotion en PS4." },
+            { id: 12, title: "EA Sports UFC 4", genre: "Deportes", size: 24.1, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co2lfa.png", desc: "Da forma a tu leyenda en el octágono con un nuevo sistema de progreso y mecánicas renovadas." },
+            { id: 13, title: "NBA 2K22", genre: "Deportes", size: 42.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co3w95.png", desc: "Todo el mundo del baloncesto en tus manos con modos competitivos y gráficos hiperrealistas." },
+            { id: 14, title: "Resident Evil 2 (Remake)", genre: "Acción", size: 24.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1ts0.png", desc: "El terror de supervivencia clásico regresa completamente reconstruido con atmósfera inmersiva." },
+            { id: 15, title: "Resident Evil 3 (Remake)", genre: "Acción", size: 22.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co224v.png", desc: "Jill Valentine intenta escapar de Raccoon City mientras es perseguida implacablemente por Némesis." },
+            { id: 16, title: "Resident Evil 7: Biohazard", genre: "Acción", size: 21.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vni.png", desc: "Una experiencia de terror en una plantación abandonada en Luisiana con perspectiva en primera persona." },
+            { id: 17, title: "Devil May Cry 5", genre: "Acción", size: 38.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnv.png", desc: "Acción estilizada al límite con tres cazadores de demonios diferentes y frenéticos combos." },
+            { id: 18, title: "Bloodborne", genre: "RPG", size: 35.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1r5q.png", desc: "Enfrenta tus pesadillas mientras buscas respuestas en la antigua ciudad maldita de Yharnam." },
+            { id: 19, title: "Dark Souls III", genre: "RPG", size: 25.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1uzr.png", desc: "Un universo oscuro y profundo con combates desafiantes y una atmósfera inolvidable." },
+            { id: 20, title: "Shadow of the Tomb Raider", genre: "Aventura", size: 32.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnn.png", desc: "Lara Croft debe sobrevivir a la mortal selva sudamericana y detener un apocalipsis maya." },
+            { id: 21, title: "Rise of the Tomb Raider", genre: "Aventura", size: 24.8, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1trw.png", desc: "Lara descubre un antiguo misterio en las gélidas y peligrosas montañas de Siberia." },
+            { id: 22, title: "Tomb Raider: Definitive Edition", genre: "Aventura", size: 14.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1sny.png", desc: "El origen de Lara Croft recreado con detalles gráficos impactantes para la nueva generación." },
+            { id: 23, title: "Far Cry 5", genre: "Acción", size: 40.1, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1v7u.png", desc: "Liberta el condado de Hope en Montana del control de una secta apocalíptica fanática." },
+            { id: 24, title: "Far Cry 4", genre: "Acción", size: 28.6, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1v7t.png", desc: "Viaja a Kyrat, una impresionante región del Himalaya dominada por un rey autoproclamado." },
+            { id: 25, title: "Assassin's Creed Unity", genre: "Aventura", size: 45.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnu.png", desc: "Vive la Revolución Francesa desde la perspectiva de un nuevo Asesino en París." },
+            { id: 26, title: "Assassin's Creed Syndicate", genre: "Aventura", size: 41.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnt.png", desc: "Lidera el inframundo de Londres durante la Revolución Industrial con los hermanos Frye." },
+            { id: 27, title: "Assassin's Creed Rogue", genre: "Aventura", size: 11.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vns.png", desc: "Experimenta el caos del siglo XVIII en Norteamérica a través de los ojos de un Templario." },
+            { id: 28, title: "Need for Speed Heat", genre: "Deportes", size: 36.4, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1x7v.png", desc: "Compite de día en carreras oficiales y arriésgalo todo de noche en carreras callejeras clandestinas." },
+            { id: 29, title: "Need for Speed Payback", genre: "Deportes", size: 30.1, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1r29.png", desc: "Acción al volante en el submundo criminal de Fortune Valley." },
+            { id: 30, title: "Crash Bandicoot N. Sane Trilogy", genre: "Aventura", size: 23.4, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1q2r.png", desc: "Tus marsupiales favoritos remasterizados con gráficos y animaciones espectaculares." },
+            { id: 31, title: "Spyro Reignited Trilogy", genre: "Aventura", size: 35.8, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1q2s.png", desc: "El dragón más querido regresa con escamas renovadas y mundos vibrantes." },
+            { id: 32, title: "Ratchet & Clank", genre: "Aventura", size: 26.4, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1r4w.png", desc: "Una reimaginación humorística y llena de acción de la clásica aventura espacial." },
+            { id: 33, title: "LittleBigPlanet 3", genre: "Aventura", size: 13.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnr.png", desc: "Sackboy regresa acompañado de nuevos amigos con habilidades únicas en mundos creativos." },
+            { id: 34, title: "Dragon Ball FighterZ", genre: "Peleas", size: 4.8, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnp.png", desc: "Batallas 3v3 espectaculares con gráficos anime de altísima fidelidad visual." },
+            { id: 35, title: "Tekken 7", genre: "Peleas", size: 44.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vno.png", desc: "El enfrentamiento final del clan Mishima impulsado por el motor Unreal Engine 4." },
+            { id: 36, title: "Soulcalibur VI", genre: "Peleas", size: 14.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnn.png", desc: "Luchas con armas basadas en el siglo XVI con invitados especiales legendarios." },
+            { id: 37, title: "Plants vs. Zombies: Garden Warfare 2", genre: "Acción", size: 27.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnm.png", desc: "Guerra abierta entre plantas y zombis con disparos multijugador divertidísimos." },
+            { id: 38, title: "Titanfall 2", genre: "Acción", size: 35.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnl.png", desc: "Una campaña individual brillante y combates multijugador con titanes mecánicos gigantes." },
+            { id: 39, title: "Battlefield 1", genre: "Acción", size: 44.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnk.png", desc: "Experimenta los albores de la guerra moderna en batallas masivas de la Primera Guerra Mundial." },
+            { id: 40, title: "Star Wars Jedi: Fallen Order", genre: "Aventura", size: 44.9, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnj.png", desc: "Una aventura galáctica en tercera persona donde asumes el papel de un Padawan superviviente." },
+            { id: 41, title: "Doom (2016)", genre: "Acción", size: 45.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vni.png", desc: "Acción brutal y frenética contra hordas interminables de demonios en Marte." },
+            { id: 42, title: "Wolfenstein: The New Order", genre: "Acción", size: 42.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnh.png", desc: "Una ucronía donde los nazis ganaron la Segunda Guerra Mundial y dominan el planeta." },
+            { id: 43, title: "The Witcher 3: Wild Hunt", genre: "RPG", size: 42.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png", desc: "Conviértete en un brujo cazador de monstruos en un mundo abierto masivo lleno de elecciones morales." },
+            { id: 44, title: "Persona 5", genre: "RPG", size: 20.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1r3w.png", desc: "Vive un año escolar en Tokio mientras lideras una banda secreta de ladrones de corazones." },
+            { id: 45, title: "Final Fantasy XV", genre: "RPG", size: 48.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1tzz.png", desc: "Un viaje por carretera con amigos entrañables para recuperar el reino perdido." },
+            { id: 46, title: "Nier: Automata", genre: "RPG", size: 44.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vng.png", desc: "Androides guerreros luchan por recuperar una Tierra invadida por formas de vida mecánicas." },
+            { id: 47, title: "Monster Hunter: World", genre: "RPG", size: 46.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnf.png", desc: "Caza criaturas colosales en un ecosistema salvaje y utiliza sus materiales para mejorar tu equipo." },
+            { id: 48, title: "Borderlands 3", genre: "Acción", size: 43.1, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vne.png", desc: "Disparos y botín infinito con cuatro nuevos buscadores de la cámara." },
+            { id: 49, title: "BioShock: The Collection", genre: "Acción", size: 38.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnd.png", desc: "Visita las ciudades submarinas de Rapture y flotantes de Columbia en alta definición." },
+            { id: 50, title: "Mafia III", genre: "Acción", size: 46.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnc.png", desc: "Construye un nuevo imperio criminal en New Bordeaux en el año 1968." },
+            { id: 51, title: "Sleeping Dogs: Definitive Edition", genre: "Acción", size: 17.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vnb.png", desc: "Un thriller policial en un mundo abierto vibrante recreando las calles de Hong Kong." },
+            { id: 52, title: "Middle-earth: Shadow of Mordor", genre: "Acción", size: 39.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vna.png", desc: "Venganza y poder en la Tierra Media con el innovador sistema Némesis de capitanes orcos." },
+            { id: 53, title: "Middle-earth: Shadow of War", genre: "Acción", size: 48.9, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn9.png", desc: "Recluta tu propio ejército de orcos para infiltrarte en fortalezas enemigas en Mordor." },
+            { id: 54, title: "Yakuza 0", genre: "Aventura", size: 24.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn8.png", desc: "El origen del dragón de Dojima en el Japón ochentero lleno de mini juegos y peleas callejeras." },
+            { id: 55, title: "Yakuza Kiwami", genre: "Aventura", size: 19.8, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn7.png", desc: "El título que dio inicio a la saga, reconstruido con mejoras de jugabilidad y gráficos HD." },
+            { id: 56, title: "Judgment", genre: "Aventura", size: 42.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn6.png", desc: "Un thriller legal y de investigación en los bajos fondos de Kamurocho como detective privado." },
+            { id: 57, title: "Plants vs. Zombies: Battle for Neighborville", genre: "Acción", size: 15.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn5.png", desc: "La batalla más loca entre plantas y zombis con regiones explorables y zonas sociales." },
+            { id: 58, title: "Mirror's Edge Catalyst", genre: "Aventura", size: 18.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn4.png", desc: "Parkour futurista en primera persona en una ciudad gobernada por corporaciones." },
+            { id: 59, title: "Just Cause 4", genre: "Acción", size: 44.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn3.png", desc: "Causa el caos definitivo con ganchos, paracaídas y condiciones meteorológicas extremas." },
+            { id: 60, title: "Just Cause 3", genre: "Acción", size: 42.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn2.png", desc: "Explosiones y libertad absoluta en el archipiélago mediterráneo de Medici." },
+            { id: 61, title: "Sniper Elite 4", genre: "Acción", size: 40.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn1.png", desc: "Tácticas de sigilo y disparos a larga distancia en la Italia de la Segunda Guerra Mundial." },
+            { id: 62, title: "Sniper Ghost Warrior Contracts", genre: "Acción", size: 28.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vn0.png", desc: "Contratos de asesinato de precisión en los fríos y hostiles valles de Siberia." },
+            { id: 63, title: "Metro Exodus", genre: "Acción", size: 47.8, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmz.png", desc: "Un viaje épico a través de un continente postapocalíptico en busca de una nueva vida." },
+            { id: 64, title: "Metro Redux", genre: "Acción", size: 19.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmy.png", desc: "Las dos aclamadas entregas de supervivencia en los túneles del metro de Moscú en HD." },
+            { id: 65, title: "Dishonored 2", genre: "Aventura", size: 42.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmx.png", desc: "Asume el rol de un asesino sobrenatural en la costera y steampunk ciudad de Karnaca." },
+            { id: 66, title: "Dishonored: Definitive Edition", genre: "Aventura", size: 36.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmw.png", desc: "El juego original galardonado con todos sus contenidos descargables principales." },
+            { id: 67, title: "Prey (2017)", genre: "Acción", size: 20.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmv.png", desc: "Despiertas a bordo de una estación espacial orbital invadida por extraterrestres mímicos." },
+            { id: 68, title: "The Evil Within", genre: "Acción", size: 38.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmu.png", desc: "Sobrevive a horrores grotescos en un mundo retorcido lleno de trampas mortales." },
+            { id: 69, title: "The Evil Within 2", genre: "Acción", size: 33.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmt.png", desc: "Adéntrate de nuevo en la pesadilla para rescatar a tu hija en la mente de un psicópata." },
+            { id: 70, title: "Alien: Isolation", genre: "Aventura", size: 22.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vms.png", desc: "Una atmósfera de terror inigualable donde el Xenomorfo te caza por instinto en una estación espacial." },
+            { id: 71, title: "Little Nightmares", genre: "Aventura", size: 3.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmr.png", desc: "Ayuda a Six a escapar de Las Fauces, un gigantesco navío habitado por criaturas corrompidas." },
+            { id: 72, title: "Abzû", genre: "Aventura", size: 3.8, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmq.png", desc: "Una hermosa aventura submarina de exploración y conexión con la vida marina." },
+            { id: 73, title: "Journey", genre: "Aventura", size: 3.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmp.png", desc: "Vuela sobre ruinas antiguas y desiertos misteriosos en esta emotiva obra maestra independiente." },
+            { id: 74, title: "Firewatch", genre: "Aventura", size: 3.6, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmo.png", desc: "Misterios en un bosque de Wyoming con una narrativa interactiva excepcional a través de radio." },
+            { id: 75, title: "Stardew Valley", genre: "RPG", size: 0.8, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmn.png", desc: "Hereda la vieja granja de tu abuelo y cultiva tu propio paraíso rural pacífico." },
+            { id: 76, title: "Hollow Knight", genre: "Aventura", size: 1.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmm.png", desc: "Explora un vasto reino subterráneo de insectos y héroes olvidados dibujado a mano." },
+            { id: 77, title: "Cuphead", genre: "Peleas", size: 4.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vml.png", desc: "Juego de acción clásico estilo dibujos animados de los años 30 con jefes desafiantes." },
+            { id: 78, title: "Limbo & Inside", genre: "Aventura", size: 5.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmk.png", desc: "Dos obras maestras de plataformas, puzles y misterio con una atmósfera inolvidable." },
+            { id: 79, title: "Overcooked! 2", genre: "Deportes", size: 3.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vmj.png", desc: "Caos culinario cooperativo en cocinas dinámicas que desafían tu paciencia y amistad." },
+            { id: 80, title: "Fall Guys", genre: "Deportes", size: 12.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co2lfa.png", desc: "Carreras de obstáculos caóticas y coloridas en línea con personajes entrañables y divertidos." }
+        ];
+
+        const adminWhatsapp = '50369351203';
+
+        // Carátulas personalizadas: se guardan únicamente en este navegador.
+        const COVER_STORAGE_KEY = 'nexora_custom_covers_v1';
+        let customCovers = {};
+        try { customCovers = JSON.parse(localStorage.getItem(COVER_STORAGE_KEY) || '{}'); } catch (_) { customCovers = {}; }
+
+        function getGameCover(game) { return customCovers[game.id] || null; }
+        function persistCustomCovers() {
+            try {
+                localStorage.setItem(COVER_STORAGE_KEY, JSON.stringify(customCovers));
+                return true;
+            } catch (error) {
+                alert('No hay espacio suficiente para guardar esta imagen. Prueba una imagen más pequeña.');
+                return false;
+            }
+        }
+        function adminStatus(message) {
+            const el = document.getElementById('coverAdminStatus');
+            if (el) el.textContent = message;
+        }
+        let secretTapCount = 0, secretTapTimer = null;
+        document.addEventListener('DOMContentLoaded', () => {
+            const trigger = document.getElementById('adminSecretTrigger');
+            if (!trigger) return;
+            trigger.style.cursor = 'default';
+            trigger.addEventListener('click', () => {
+                secretTapCount++;
+                clearTimeout(secretTapTimer);
+                secretTapTimer = setTimeout(() => secretTapCount = 0, 2200);
+                if (secretTapCount >= 5) {
+                    secretTapCount = 0;
+                    const password = prompt('Acceso privado de administración:');
+                    if (password === 'NEXORA2026') openCoverAdmin();
+                    else if (password !== null) alert('Clave incorrecta.');
+                }
+            });
+        });
+        function openPrivateCoverAdmin() {
+            const password = prompt('Acceso privado:');
+            if (password === 'NEXORA2026') openCoverAdmin();
+            else if (password !== null) alert('Clave incorrecta.');
+        }
+        function openCoverAdmin() {
+            const select = document.getElementById('coverGameSelect');
+            select.innerHTML = games.map(g => `<option value="${g.id}">${g.id}. ${g.title}</option>`).join('');
+            document.getElementById('coverAdminModal').classList.remove('hidden');
+            document.getElementById('coverAdminModal').classList.add('flex');
+            previewCurrentCover();
+        }
+        function closeCoverAdmin() {
+            const modal = document.getElementById('coverAdminModal');
+            modal.classList.add('hidden'); modal.classList.remove('flex');
+        }
+        function previewCurrentCover() {
+            const id = Number(document.getElementById('coverGameSelect').value);
+            const game = games.find(g => g.id === id);
+            const preview = document.getElementById('coverAdminPreview');
+            const custom = customCovers[id];
+            preview.src = custom || (game ? game.cover : '');
+            document.getElementById('coverUrlInput').value = custom && !custom.startsWith('data:') ? custom : '';
+            adminStatus(custom ? 'Este juego tiene una carátula personalizada.' : 'Este juego usa la carátula automática.');
+        }
+        function applyCoverToPage(gameId, source) {
+            document.querySelectorAll(`img[data-cover-game="${gameId}"]`).forEach(img => {
+                img.onerror = () => showCoverPlaceholder(img, games.find(g => g.id === gameId)?.title || 'Juego');
+                img.onload = () => img.classList.add('cover-ready');
+                img.src = source;
+            });
+        }
+        function saveCoverUrl() {
+            const id = Number(document.getElementById('coverGameSelect').value);
+            const url = document.getElementById('coverUrlInput').value.trim();
+            if (!/^https?:\/\/.+/i.test(url)) { adminStatus('Pega un enlace válido que empiece con https://'); return; }
+            customCovers[id] = url;
+            if (persistCustomCovers()) {
+                applyCoverToPage(id, url);
+                document.getElementById('coverAdminPreview').src = url;
+                adminStatus('Carátula guardada correctamente en este navegador.');
+            }
+        }
+        function saveUploadedCover(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) { adminStatus('Selecciona un archivo de imagen.'); return; }
+            const reader = new FileReader();
+            reader.onload = () => {
+                const image = new Image();
+                image.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const maxWidth = 600;
+                    const scale = Math.min(1, maxWidth / image.width);
+                    canvas.width = Math.round(image.width * scale);
+                    canvas.height = Math.round(image.height * scale);
+                    canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+                    const id = Number(document.getElementById('coverGameSelect').value);
+                    const previous = customCovers[id];
+                    customCovers[id] = dataUrl;
+                    if (persistCustomCovers()) {
+                        document.getElementById('coverAdminPreview').src = dataUrl;
+                        document.getElementById('coverUrlInput').value = '';
+                        applyCoverToPage(id, dataUrl);
+                        adminStatus('Imagen subida y guardada en este navegador.');
+                    } else if (previous) customCovers[id] = previous;
+                    event.target.value = '';
+                };
+                image.onerror = () => adminStatus('No se pudo leer esa imagen.');
+                image.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        function removeCustomCover() {
+            const id = Number(document.getElementById('coverGameSelect').value);
+            delete customCovers[id];
+            if (persistCustomCovers()) {
+                const game = games.find(g => g.id === id);
+                document.getElementById('coverAdminPreview').src = game ? game.cover : '';
+                document.getElementById('coverUrlInput').value = '';
+                coverCache.delete(id);
+                document.querySelectorAll(`img[data-cover-game="${id}"]`).forEach(img => { img.removeAttribute('src'); img.classList.remove('cover-ready'); img.dataset.coverLoaded = '0'; });
+                loadVisibleCovers();
+                adminStatus('Carátula personalizada eliminada. Se restauró la automática.');
+            }
+        }
+
+        let currentGenre = 'all';
+        let selectedGames = JSON.parse(localStorage.getItem('nexora_selected_games') || '[]');
+
+        function saveSelectedGames() {
+            localStorage.setItem('nexora_selected_games', JSON.stringify(selectedGames));
+        }
+
+        function contactWhatsapp() {
+            const text = encodeURIComponent('Hola, quiero información sobre los servicios de NEXORA PLAY para PS4.');
+            window.open(`https://wa.me/${adminWhatsapp}?text=${text}`, '_blank', 'noopener');
+        }
+
+        function renderGames(list = games) {
+            const grid = document.getElementById('gamesGrid');
+            grid.innerHTML = '';
+            
+            list.forEach(game => {
+                grid.innerHTML += `
+                    <div class="game-card bg-cyber-card border border-cyber-border rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300">
+                        <div>
+                            <div class="relative cover-frame bg-black overflow-hidden group">
+                                <img data-cover-game="${game.id}" alt="Carátula de ${game.title}" class="w-full h-full object-contain group-hover:scale-[1.03] transition duration-500" loading="lazy">
+                                <span class="absolute top-3 left-3 px-2.5 py-1 bg-cyber-dark/80 backdrop-blur-md border border-cyber-blue/40 text-cyber-blue font-cyber text-xs rounded-xl uppercase">#${game.id < 10 ? '0' + game.id : game.id}</span>
+                                <span class="absolute top-3 right-3 px-2.5 py-1 bg-cyber-purple/80 backdrop-blur-md border border-purple-400/40 text-purple-200 font-cyber text-xs rounded-xl">${game.size} GB</span>
+                            </div>
+                            <div class="p-4 space-y-2">
+                                <span class="text-xs text-cyber-blue font-cyber tracking-wider uppercase">${game.genre}</span>
+                                <h3 class="font-cyber font-bold text-lg leading-tight line-clamp-1">${game.title}</h3>
+                                <p class="text-xs text-gray-400 line-clamp-2">${game.desc}</p>
+                            </div>
+                        </div>
+                        <div class="p-4 pt-0 grid grid-cols-2 gap-2">
+                            <button onclick="openModal(${game.id})" class="w-full py-2.5 bg-cyber-dark border border-cyber-border rounded-xl font-cyber text-xs text-gray-300 hover:border-cyber-blue hover:text-white transition">Detalles</button>
+                            <button onclick="requestGame(${game.id})" class="w-full py-2.5 bg-gradient-to-r from-cyber-blue to-cyber-purple text-black font-cyber font-bold text-xs rounded-xl neon-glow-blue hover:opacity-90 transition">Elegir Juego</button>
+                        </div>
+                    </div>
+                `;
+            });
+            loadVisibleCovers();
+        }
+
+        // Carga imágenes desde la API oficial de Wikipedia: busca el artículo
+        // del videojuego y solicita su imagen principal, sin reutilizar portadas ajenas.
+        const coverCache = new Map();
+        const coverPending = new Map();
+        function normalizeCoverTitle(value) {
+            return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+        }
+        function coverSearchTitle(title) {
+            return title.replace(/\s*\([^)]*\)/g, '').replace(/^EA Sports\s+/i, '').replace(/:\s*The .*$/i, '').replace(/\s*-\s*Remastered$/i, '').trim();
+        }
+        async function fetchGameCover(game) {
+            if (coverCache.has(game.id)) return coverCache.get(game.id);
+            if (coverPending.has(game.id)) return coverPending.get(game.id);
+            const task = (async () => {
+                const title = coverSearchTitle(game.title);
+                const terms = normalizeCoverTitle(title).split(' ').filter(w => w.length > 2);
+                const search = async query => {
+                    const url = 'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + encodeURIComponent(query) + '&srlimit=10&srnamespace=0&format=json&origin=*';
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Wikipedia search failed');
+                    return (await response.json()).query?.search || [];
+                };
+                try {
+                    let results = await search('"' + title + '" video game');
+                    if (!results.length) results = await search(title + ' video game');
+                    const ranked = results.map(page => {
+                        const candidate = normalizeCoverTitle(page.title || '');
+                        const hits = terms.filter(word => candidate.includes(word)).length;
+                        return { page, score: hits / Math.max(terms.length, 1) };
+                    }).filter(item => item.score >= 0.5).sort((a,b) => b.score-a.score);
+                    for (const item of ranked.slice(0, 4)) {
+                        const url = 'https://en.wikipedia.org/w/api.php?action=query&pageids=' + item.page.pageid + '&prop=pageimages&piprop=thumbnail|original&pithumbsize=800&format=json&origin=*';
+                        const response = await fetch(url);
+                        if (!response.ok) continue;
+                        const data = await response.json();
+                        const page = data.query?.pages?.[item.page.pageid];
+                        const image = page?.thumbnail?.source || page?.original?.source;
+                        if (image && /^https:\/\/upload\.wikimedia\.org\//i.test(image)) {
+                            coverCache.set(game.id, image);
+                            return image;
+                        }
+                    }
+                } catch (error) { console.warn('No se pudo cargar la carátula de ' + game.title, error); }
+                coverCache.set(game.id, null);
+                return null;
+            })();
+            coverPending.set(game.id, task);
+            const result = await task;
+            coverPending.delete(game.id);
+            return result;
+        }
+        async function loadVisibleCovers() {
+            const images = [...document.querySelectorAll('img[data-cover-game]')].filter(img => img.dataset.coverLoaded !== '1');
+            images.forEach(img => { img.dataset.coverLoaded = '1'; });
+            for (let i = 0; i < images.length; i += 4) {
+                await Promise.all(images.slice(i, i + 4).map(async img => {
+                    const game = games.find(item => item.id === Number(img.dataset.coverGame));
+                    if (!game) return;
+                    const manualUrl = getGameCover(game);
+                    const url = manualUrl || await fetchGameCover(game);
+                    if (url) {
+                        img.onload = () => img.classList.add('cover-ready');
+                        img.onerror = () => showCoverPlaceholder(img, game.title);
+                        img.src = url;
+                    } else showCoverPlaceholder(img, game.title);
+                }));
+            }
+        }
+        function showCoverPlaceholder(img, title) {
+            const host = img.parentElement;
+            img.remove();
+            if (host) {
+                host.classList.remove('cover-loading');
+                host.innerHTML = '<div class="cover-placeholder"><i class="fa-solid fa-gamepad text-3xl text-cyber-blue"></i><span class="font-cyber text-xs">' + title.replace(/[<>]/g, '') + '</span><small>Imagen no disponible en la fuente</small></div>';
+            }
+        }
+
+        function filterGames() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = games.filter(g => {
+                const matchesGenre = currentGenre === 'all' || g.genre === currentGenre;
+                const matchesSearch = g.title.toLowerCase().includes(query);
+                return matchesGenre && matchesSearch;
+            });
+            renderGames(filtered);
+        }
+
+        function setGenre(genre) {
+            currentGenre = genre;
+            document.querySelectorAll('button[id^="btn-"]').forEach(btn => {
+                btn.className = "px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap";
+            });
+            const activeBtn = document.getElementById('btn-' + genre);
+            if(activeBtn) {
+                activeBtn.className = "px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-gradient-to-r from-cyber-blue to-cyber-purple text-black font-bold whitespace-nowrap";
+            }
+            filterGames();
+        }
+
+        function openModal(id) {
+            const game = games.find(g => g.id === id);
+            if(!game) return;
+            
+            document.getElementById('modalContent').innerHTML = `
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <div class="w-48 h-72 shrink-0 rounded-xl overflow-hidden bg-black border border-cyber-border cover-loading flex items-center justify-center"><img data-cover-game="${game.id}" class="w-full h-full object-contain" alt="Carátula de ${game.title}" loading="lazy"></div>
+                    <div class="space-y-4 flex-1">
+                        <span class="px-3 py-1 bg-cyber-blue/20 border border-cyber-blue text-cyber-blue text-xs font-cyber rounded-full uppercase">${game.genre}</span>
+                        <h2 class="text-2xl font-black font-cyber">${game.title}</h2>
+                        <p class="text-gray-300 text-sm">${game.desc}</p>
+                        <div class="flex items-center gap-4 text-sm font-cyber">
+                            <span class="text-purple-300"><i class="fa-solid fa-weight-scale mr-2"></i> Tamaño aproximado: ${game.size} GB</span>
+                            <span class="text-cyber-blue"><i class="fa-solid fa-tv mr-2"></i> Formato: PS4 HD</span>
+                        </div>
+                        <button onclick="requestGame(${game.id}); closeModal();" class="w-full py-3 bg-gradient-to-r from-cyber-blue to-cyber-purple text-black font-cyber font-bold text-sm rounded-xl neon-glow-blue">ELEGIR ESTE JUEGO</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('gameModal').classList.remove('hidden');
+            loadVisibleCovers();
+        }
+
+        function closeModal() {
+            document.getElementById('gameModal').classList.add('hidden');
+        }
+
+        function requestGame(id) {
+            const game = games.find(g => g.id === id);
+            if (!game) return;
+
+            const clientName = (prompt("Ingresa tu nombre o GamerTag:", "") || "").trim();
+            if (!clientName) {
+                alert("Escribe tu nombre para preparar el pedido.");
+                return;
+            }
+
+            if (!selectedGames.some(g => g.id === game.id)) {
+                selectedGames.push({ id: game.id, title: game.title, size: game.size });
+                saveSelectedGames();
+                calculateStorage();
+            }
+
+            const list = selectedGames.map(g => `• ${g.title} (${g.size} GB aprox.)`).join('\\n');
+            const message = `🎮 *PEDIDO NEXORA PLAY*
+👤 Cliente: ${clientName}
+
+🕹️ *Juegos solicitados:*
+${list}
+
+📦 Tamaño total aproximado: ${selectedGames.reduce((sum, g) => sum + Number(g.size), 0).toFixed(1)} GB`;
+            window.open(`https://wa.me/${adminWhatsapp}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+        }
+
+        function openStorageModal() {
+            document.getElementById('storageModal').classList.remove('hidden');
+            calculateStorage();
+        }
+
+        function closeStorageModal() {
+            document.getElementById('storageModal').classList.add('hidden');
+        }
+
+        function calculateStorage() {
+            const capacity = parseInt(document.getElementById('ps4Capacity').value);
+            document.getElementById('stoTotal').innerText = capacity + ' GB';
+            const selectedGB = selectedGames.reduce((acc, game) => acc + Number(game.size), 0);
+            document.getElementById('stoSelected').innerText = selectedGB.toFixed(1) + ' GB';
+            const percentage = Math.min(100, (selectedGB / capacity) * 100);
+            document.getElementById('stoBar').style.width = percentage + '%';
+        }
+
+        // Inicializar
+        renderGames();
+        calculateStorage();
+    </script>
+</body>
+</html>
