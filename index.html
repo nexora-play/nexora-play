@@ -178,7 +178,7 @@
           <h3 class="font-cyber text-cyber-blue text-lg">Administrar carátulas</h3>
           <button onclick="closeCoverAdmin()" class="text-gray-400 text-2xl" aria-label="Cerrar">&times;</button>
         </div>
-        <p class="text-xs text-gray-400 mb-4">Panel privado. Los cambios se guardan en este navegador y no aparecen automáticamente en los dispositivos de tus clientes.</p>
+        <p class="text-xs text-gray-400 mb-4">Panel privado. Las carátulas se guardan en el almacenamiento ampliado de este navegador. No se borrarán las que ya habías guardado.</p>
         <label class="block text-xs text-gray-300 mb-2">Selecciona el juego</label>
         <select id="coverGameSelect" onchange="previewCurrentCover()" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 mb-4 text-white"></select>
         <div class="w-36 mx-auto mb-4 aspect-[264/374] bg-black rounded-lg overflow-hidden border border-cyber-border">
@@ -283,18 +283,85 @@
 
         const adminWhatsapp = '50369351203';
 
-        // Carátulas personalizadas: se guardan únicamente en este navegador.
+        // Carátulas personalizadas: IndexedDB ofrece mucho más espacio que localStorage.
+        // Migramos automáticamente las carátulas antiguas sin borrarlas del almacenamiento anterior.
         const COVER_STORAGE_KEY = 'nexora_custom_covers_v1';
+        const COVER_DB_NAME = 'NexoraPlayCovers';
+        const COVER_DB_VERSION = 1;
         let customCovers = {};
         try { customCovers = JSON.parse(localStorage.getItem(COVER_STORAGE_KEY) || '{}'); } catch (_) { customCovers = {}; }
 
-        function getGameCover(game) { return customCovers[game.id] || null; }
-        function persistCustomCovers() {
+        function openCoverDatabase() {
+            return new Promise((resolve, reject) => {
+                if (!('indexedDB' in window)) { reject(new Error('Este navegador no permite IndexedDB')); return; }
+                const request = indexedDB.open(COVER_DB_NAME, COVER_DB_VERSION);
+                request.onupgradeneeded = () => {
+                    const db = request.result;
+                    if (!db.objectStoreNames.contains('covers')) db.createObjectStore('covers', { keyPath: 'gameId' });
+                };
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error || new Error('No se pudo abrir el almacenamiento'));
+            });
+        }
+        async function readAllStoredCovers() {
+            const db = await openCoverDatabase();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('covers', 'readonly');
+                const req = tx.objectStore('covers').getAll();
+                req.onsuccess = () => { const result = req.result || []; db.close(); resolve(result); };
+                req.onerror = () => { db.close(); reject(req.error); };
+            });
+        }
+        async function writeStoredCover(gameId, data) {
+            const db = await openCoverDatabase();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('covers', 'readwrite');
+                tx.objectStore('covers').put({ gameId: Number(gameId), data });
+                tx.oncomplete = () => { db.close(); resolve(true); };
+                tx.onerror = tx.onabort = () => { db.close(); reject(tx.error || new Error('No se pudo guardar la carátula')); };
+            });
+        }
+        async function deleteStoredCover(gameId) {
+            const db = await openCoverDatabase();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('covers', 'readwrite');
+                tx.objectStore('covers').delete(Number(gameId));
+                tx.oncomplete = () => { db.close(); resolve(true); };
+                tx.onerror = tx.onabort = () => { db.close(); reject(tx.error || new Error('No se pudo eliminar la carátula')); };
+            });
+        }
+        async function initializeCoverStorage() {
             try {
-                localStorage.setItem(COVER_STORAGE_KEY, JSON.stringify(customCovers));
+                const oldCovers = { ...customCovers };
+                const stored = await readAllStoredCovers();
+                // Las carátulas ya guardadas en IndexedDB tienen prioridad.
+                stored.forEach(item => { customCovers[item.gameId] = item.data; });
+                // Migra lo que ya existía en localStorage; no elimina ni modifica la copia antigua.
+                for (const [id, data] of Object.entries(oldCovers)) {
+                    if (!Object.prototype.hasOwnProperty.call(customCovers, id)) {
+                        await writeStoredCover(id, data);
+                        customCovers[id] = data;
+                    }
+                }
+                Object.entries(customCovers).forEach(([id, src]) => applyCoverToPage(Number(id), src));
                 return true;
             } catch (error) {
-                alert('No hay espacio suficiente para guardar esta imagen. Prueba una imagen más pequeña.');
+                console.warn('No se pudo iniciar IndexedDB para carátulas:', error);
+                adminStatus('No se pudo activar el almacenamiento ampliado. No se han borrado tus carátulas anteriores.');
+                return false;
+            }
+        }
+        const coverStorageReady = initializeCoverStorage();
+        function getGameCover(game) { return customCovers[game.id] || null; }
+        async function persistCustomCover(gameId, data) {
+            try {
+                await coverStorageReady;
+                await writeStoredCover(gameId, data);
+                customCovers[gameId] = data;
+                return true;
+            } catch (error) {
+                console.error(error);
+                adminStatus('No se pudo guardar. Tus carátulas anteriores se mantienen intactas.');
                 return false;
             }
         }
@@ -351,12 +418,12 @@
                 img.src = source;
             });
         }
-        function saveCoverUrl() {
+        async function saveCoverUrl() {
             const id = Number(document.getElementById('coverGameSelect').value);
             const url = document.getElementById('coverUrlInput').value.trim();
             if (!/^https?:\/\/.+/i.test(url)) { adminStatus('Pega un enlace válido que empiece con https://'); return; }
-            customCovers[id] = url;
-            if (persistCustomCovers()) {
+            adminStatus('Guardando carátula…');
+            if (await persistCustomCover(id, url)) {
                 applyCoverToPage(id, url);
                 document.getElementById('coverAdminPreview').src = url;
                 adminStatus('Carátula guardada correctamente en este navegador.');
@@ -378,25 +445,33 @@
                     canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
                     const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
                     const id = Number(document.getElementById('coverGameSelect').value);
-                    const previous = customCovers[id];
-                    customCovers[id] = dataUrl;
-                    if (persistCustomCovers()) {
-                        document.getElementById('coverAdminPreview').src = dataUrl;
-                        document.getElementById('coverUrlInput').value = '';
-                        applyCoverToPage(id, dataUrl);
-                        adminStatus('Imagen subida y guardada en este navegador.');
-                    } else if (previous) customCovers[id] = previous;
-                    event.target.value = '';
+                    adminStatus('Guardando imagen en el almacenamiento ampliado…');
+                    persistCustomCover(id, dataUrl).then(saved => {
+                        if (saved) {
+                            document.getElementById('coverAdminPreview').src = dataUrl;
+                            document.getElementById('coverUrlInput').value = '';
+                            applyCoverToPage(id, dataUrl);
+                            adminStatus('Imagen guardada correctamente en este navegador.');
+                        }
+                    }).finally(() => { event.target.value = ''; });
                 };
                 image.onerror = () => adminStatus('No se pudo leer esa imagen.');
                 image.src = reader.result;
             };
             reader.readAsDataURL(file);
         }
-        function removeCustomCover() {
+        async function removeCustomCover() {
             const id = Number(document.getElementById('coverGameSelect').value);
-            delete customCovers[id];
-            if (persistCustomCovers()) {
+            try {
+                await coverStorageReady;
+                await deleteStoredCover(id);
+                delete customCovers[id];
+                // Quita también la copia antigua de este juego para que no vuelva a migrarse.
+                try {
+                    const old = JSON.parse(localStorage.getItem(COVER_STORAGE_KEY) || '{}');
+                    delete old[id];
+                    localStorage.setItem(COVER_STORAGE_KEY, JSON.stringify(old));
+                } catch (_) { /* IndexedDB ya contiene el estado actualizado. */ }
                 const game = games.find(g => g.id === id);
                 document.getElementById('coverAdminPreview').src = game ? game.cover : '';
                 document.getElementById('coverUrlInput').value = '';
@@ -404,6 +479,8 @@
                 document.querySelectorAll(`img[data-cover-game="${id}"]`).forEach(img => { img.removeAttribute('src'); img.classList.remove('cover-ready'); img.dataset.coverLoaded = '0'; });
                 loadVisibleCovers();
                 adminStatus('Carátula personalizada eliminada. Se restauró la automática.');
+            } catch (error) {
+                adminStatus('No se pudo restaurar la portada. Tus otras carátulas siguen guardadas.');
             }
         }
 
