@@ -254,7 +254,22 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
           <h3 class="font-cyber text-cyber-blue text-lg">Administrar carátulas</h3>
           <button onclick="closeCoverAdmin()" class="text-gray-400 text-2xl" aria-label="Cerrar">&times;</button>
         </div>
-        <p class="text-xs text-gray-400 mb-4">Las 46 carátulas del respaldo ya están publicadas para todos los clientes. Las nuevas imágenes que subas desde aquí se guardan solo en este navegador.</p>
+        <div class="mb-5 p-4 rounded-xl border border-cyber-blue/40 bg-cyber-dark/70">
+          <h4 class="font-cyber text-cyber-blue font-bold mb-3"><i class="fa-solid fa-circle-plus mr-2"></i>Agregar juego al catálogo</h4>
+          <div class="space-y-2">
+            <input id="nxNewTitle" type="text" maxlength="100" placeholder="Nombre del juego" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 text-white">
+            <div class="grid grid-cols-2 gap-2">
+              <select id="nxNewGenre" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 text-white"><option>Acción</option><option>Aventura</option><option>Peleas</option><option>Deportes</option><option>Carreras</option><option>Disparos</option><option>Rol</option><option>Otros</option></select>
+              <input id="nxNewSize" type="number" min="0.1" max="200" step="0.1" placeholder="Tamaño GB" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 text-white">
+            </div>
+            <textarea id="nxNewDesc" maxlength="500" rows="2" placeholder="Descripción breve (opcional)" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 text-white"></textarea>
+            <label class="block text-xs text-gray-300">Carátula del juego</label>
+            <input id="nxNewCover" type="file" accept="image/*" class="block w-full text-sm text-gray-300">
+            <button id="nxAddGameBtn" onclick="nxAddGame()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyber-blue to-cyber-purple text-black font-cyber font-bold">Guardar y publicar juego</button>
+            <p id="nxAddGameStatus" class="text-xs text-cyber-blue min-h-5" aria-live="polite">Al guardar, el juego aparecerá en el catálogo de todos tus clientes.</p>
+          </div>
+        </div>
+        <p class="text-xs text-gray-400 mb-4">Administra las carátulas existentes. Los cambios locales de carátulas no se publican automáticamente.</p>
         <label class="block text-xs text-gray-300 mb-2">Selecciona el juego</label>
         <select id="coverGameSelect" onchange="previewCurrentCover()" class="w-full bg-cyber-dark border border-cyber-border rounded-xl p-3 mb-4 text-white"></select>
         <div class="w-36 mx-auto mb-4 aspect-[264/374] bg-black rounded-lg overflow-hidden border border-cyber-border">
@@ -278,7 +293,7 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
 
     <!-- SCRIPT PRINCIPAL -->
     <script>
-        const games = [
+        let games = [
             { id: 1, title: "God of War (2018)", genre: "Acción", size: 39.5, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1r7f.png", desc: "Kratos, ahora convertido en padre, debe guiar a su hijo en un peligroso viaje por tierras nórdicas." },
             { id: 2, title: "Marvel's Spider-Man", genre: "Acción", size: 45.2, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png", desc: "Experimenta las acrobacias, improvisación y telarañas del trepamuros más famoso de Nueva York." },
             { id: 3, title: "Horizon Zero Dawn", genre: "Aventura", size: 48.0, cover: "https://images.igdb.com/igdb/image/upload/t_cover_big/co1vzz.png", desc: "Explora un mundo exuberante habitado por misteriosas criaturas mecanizadas en el papel de la cazadora Aloy." },
@@ -480,6 +495,74 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
                 adminStatus('No se pudo exportar. Tus carátulas originales siguen guardadas en este navegador.');
             }
         }
+        // NEXORA PLAY - conexión del catálogo compartido a Supabase.
+        const NX_SUPABASE_URL = 'https://rgyhtpofdpwwmiykjonv.supabase.co';
+        const NX_SUPABASE_ANON_KEY = 'sb_publishable_8Swqn4HzTRT_mexiwxOGpQ_JTvhXH05';
+        const NX_ADMIN_FUNCTION = NX_SUPABASE_URL + '/functions/v1/nexora-admin';
+        let nxAdminPassword = '';
+        const nxRemoteIds = new Set();
+        function nxStatus(message, isError=false) {
+            const el = document.getElementById('nxAddGameStatus');
+            if (el) { el.textContent = message; el.style.color = isError ? '#fca5a5' : '#00f3ff'; }
+        }
+        async function nxVerifyAdminPassword(password) {
+            try {
+                const response = await fetch(NX_ADMIN_FUNCTION, { method:'POST', headers:{'Content-Type':'application/json','apikey':NX_SUPABASE_ANON_KEY}, body:JSON.stringify({action:'verify', password}) });
+                const data = await response.json().catch(()=>({}));
+                return response.ok && data.ok === true;
+            } catch (e) { console.error(e); alert('No se pudo conectar con el administrador de Supabase.'); return false; }
+        }
+        async function nxLoadRemoteGames() {
+            try {
+                const response = await fetch(NX_SUPABASE_URL + '/rest/v1/juegos?select=id,nombre,categoria,tamano_gb,descripcion,caratula_url&activo=eq.true&order=id.asc', {
+                    headers:{ apikey:NX_SUPABASE_ANON_KEY, Authorization:'Bearer '+NX_SUPABASE_ANON_KEY }
+                });
+                if (!response.ok) throw new Error('HTTP '+response.status);
+                const rows = await response.json();
+                rows.forEach(row => {
+                    const localId = 100000 + Number(row.id);
+                    if (games.some(g => g.id === localId)) return;
+                    nxRemoteIds.add(localId);
+                    games.push({ id:localId, title:String(row.nombre||'Juego'), genre:String(row.categoria||'Otros'), size:Number(row.tamano_gb)||0, cover:String(row.caratula_url||''), desc:String(row.descripcion||'Juego agregado al catálogo NEXORA PLAY.') });
+                });
+                filterGames();
+            } catch (e) { console.warn('No se pudieron cargar juegos compartidos:',e); }
+        }
+        function nxFileToDataUrl(file) {
+            return new Promise((resolve,reject)=>{
+                const reader=new FileReader(); reader.onload=()=>resolve(reader.result); reader.onerror=reject; reader.readAsDataURL(file);
+            });
+        }
+        async function nxAddGame() {
+            const title=document.getElementById('nxNewTitle').value.trim();
+            const genre=document.getElementById('nxNewGenre').value;
+            const size=Number(document.getElementById('nxNewSize').value);
+            const desc=document.getElementById('nxNewDesc').value.trim();
+            const file=document.getElementById('nxNewCover').files[0];
+            if (!title) return nxStatus('Escribe el nombre del juego.',true);
+            if (!Number.isFinite(size)||size<=0||size>200) return nxStatus('Escribe un tamaño válido en GB.',true);
+            if (!file||!file.type.startsWith('image/')) return nxStatus('Selecciona la carátula del juego.',true);
+            if (file.size>12*1024*1024) return nxStatus('La imagen debe pesar menos de 12 MB.',true);
+            if (!nxAdminPassword) return nxStatus('Cierra y vuelve a entrar al administrador.',true);
+            const btn=document.getElementById('nxAddGameBtn'); btn.disabled=true; btn.textContent='Publicando…';
+            try {
+                nxStatus('Preparando carátula…');
+                const dataUrl=await nxFileToDataUrl(file);
+                const payload={action:'add_game',password:nxAdminPassword,nombre:title,categoria:genre,tamano_gb:size,descripcion:desc,cover_data_url:dataUrl};
+                const response=await fetch(NX_ADMIN_FUNCTION,{method:'POST',headers:{'Content-Type':'application/json','apikey':NX_SUPABASE_ANON_KEY},body:JSON.stringify(payload)});
+                const data=await response.json().catch(()=>({}));
+                if(!response.ok||!data.ok) throw new Error(data.error||'No se pudo publicar el juego.');
+                const row=data.game; const localId=100000+Number(row.id);
+                if(!games.some(g=>g.id===localId)) games.push({id:localId,title:row.nombre,genre:row.categoria,size:Number(row.tamano_gb)||0,cover:row.caratula_url,desc:row.descripcion||''});
+                filterGames();
+                document.getElementById('nxNewTitle').value=''; document.getElementById('nxNewSize').value=''; document.getElementById('nxNewDesc').value=''; document.getElementById('nxNewCover').value='';
+                nxStatus('¡Juego publicado! Ya aparece en el catálogo y estará disponible para tus clientes.');
+            } catch(e) { console.error(e); nxStatus(e.message||'Error al publicar.',true); }
+            finally { btn.disabled=false; btn.textContent='Guardar y publicar juego'; }
+        }
+        // Cargar nuevos juegos para todos los visitantes sin tocar los juegos originales.
+        document.addEventListener('DOMContentLoaded', nxLoadRemoteGames);
+
         let secretTapCount = 0, secretTapTimer = null;
         document.addEventListener('DOMContentLoaded', () => {
             const trigger = document.getElementById('adminSecretTrigger');
@@ -492,15 +575,20 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
                 if (secretTapCount >= 5) {
                     secretTapCount = 0;
                     const password = prompt('Acceso privado de administración:');
-                    if (password === 'NEXORA2026') openCoverAdmin();
-                    else if (password !== null) alert('Clave incorrecta.');
+                    if (password !== null) {
+                        nxVerifyAdminPassword(password).then(ok => {
+                            if (ok) { nxAdminPassword = password; openCoverAdmin(); }
+                            else alert('Clave incorrecta o servicio de administración aún no configurado.');
+                        });
+                    }
                 }
             });
         });
-        function openPrivateCoverAdmin() {
+        async function openPrivateCoverAdmin() {
             const password = prompt('Acceso privado:');
-            if (password === 'NEXORA2026') openCoverAdmin();
-            else if (password !== null) alert('Clave incorrecta.');
+            if (password === null) return;
+            if (await nxVerifyAdminPassword(password)) { nxAdminPassword = password; openCoverAdmin(); }
+            else alert('Clave incorrecta o servicio de administración aún no configurado.');
         }
         function openCoverAdmin() {
             const select = document.getElementById('coverGameSelect');
@@ -806,6 +894,8 @@ ${list}
         // Inicializar
         renderGames();
         calculateStorage();
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', nxLoadRemoteGames, {once:true});
+        else nxLoadRemoteGames();
     </script>
 </body>
 </html>
