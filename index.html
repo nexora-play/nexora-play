@@ -47,33 +47,25 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0a0a16; }
         ::-webkit-scrollbar-thumb { background: #9d00ff; border-radius: 4px; }
-
-        /* NEXORA PLAY 2.0 — catálogo tipo tienda, conservando la paleta cyber original */
-        .nexora-shop-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:start;margin-top:26px}
-        .nexora-sidebar{background:linear-gradient(160deg,rgba(18,18,37,.98),rgba(10,10,22,.98));border:1px solid rgba(0,243,255,.22);border-radius:22px;padding:20px;position:sticky;top:104px;box-shadow:0 12px 34px rgba(0,0,0,.22)}
-        .nexora-sidebar-title{font-family:Orbitron,sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#00f3ff;margin:8px 0 13px}
-        .nexora-sidebar .nexora-filter-group{display:flex;flex-direction:column;gap:7px;overflow:visible;padding:0;margin:0 0 22px}
-        .nexora-sidebar .nexora-filter-group button{width:100%;text-align:left;white-space:normal;padding:10px 12px;border-radius:12px;justify-content:flex-start;font-size:11px;letter-spacing:.08em}
-        .nexora-sidebar .nexora-search{width:100%;margin-bottom:22px}
-        .nexora-sidebar .nexora-search input{font-size:15px;border-radius:13px}
-        .nexora-results-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 18px;padding:0 2px}
-        .nexora-results-head h2{font-family:Orbitron,sans-serif;font-size:clamp(16px,2vw,22px);font-weight:800;letter-spacing:.06em;color:#fff}
-        .nexora-results-head span{font-family:Orbitron,sans-serif;color:#00f3ff;font-size:11px;letter-spacing:.1em}
-        #gamesGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-        #gamesGrid .game-card{border-radius:20px;background:linear-gradient(155deg,#17172d,#101020);border-color:rgba(0,243,255,.15);box-shadow:0 8px 24px rgba(0,0,0,.2)}
-        #gamesGrid .game-card:hover{border-color:rgba(0,243,255,.65);box-shadow:0 12px 30px rgba(0,243,255,.13)}
-        #gamesGrid .cover-frame{aspect-ratio:264/300;background:linear-gradient(145deg,#080812,#17172b);padding:12px}
-        #gamesGrid .cover-frame img{border-radius:12px}
-        #gamesGrid .game-card h3{font-size:clamp(12px,1.2vw,16px)}
-        #gamesGrid .game-card .p-4{padding:13px}
-        main.max-w-7xl{max-width:1500px}
-        main.max-w-7xl>div:first-child{min-height:250px;padding:clamp(24px,4vw,52px);border-radius:26px;background:radial-gradient(ellipse at 82% 20%,rgba(157,0,255,.23),transparent 42%),radial-gradient(ellipse at 12% 90%,rgba(0,243,255,.16),transparent 45%),linear-gradient(115deg,#121225,#0a0a16 65%,#17102a);border-color:rgba(0,243,255,.3);box-shadow:0 18px 50px rgba(0,0,0,.24)}
-        main.max-w-7xl>div:first-child h2{font-size:clamp(25px,4vw,46px)}
-        @media(max-width:1000px){#gamesGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.nexora-shop-layout{grid-template-columns:220px minmax(0,1fr)}}
-        @media(max-width:700px){.nexora-shop-layout{grid-template-columns:1fr;gap:16px}.nexora-sidebar{position:static;padding:15px}.nexora-sidebar .nexora-filter-group{display:flex;flex-direction:row;flex-wrap:wrap;gap:7px}.nexora-sidebar .nexora-filter-group button{width:auto;flex:1 1 auto;text-align:center;padding:9px 11px}.nexora-sidebar-title{margin-top:5px}#gamesGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}#gamesGrid .cover-frame{aspect-ratio:264/330;padding:8px}#gamesGrid .game-card .p-4{padding:10px}#gamesGrid .game-card h3{font-size:12px}.nexora-results-head{margin-bottom:12px}main.max-w-7xl>div:first-child{min-height:190px;margin-bottom:20px}}
-        @media(max-width:380px){#gamesGrid{grid-template-columns:1fr 1fr;gap:9px}#gamesGrid .cover-frame{aspect-ratio:264/350}}
-
     </style>
+
+<style id="nexora-play-2-store-redesign">
+:root{--nx-bg:#0a0a16;--nx-panel:#121225;--nx-card:#17172b;--nx-line:rgba(0,243,255,.18);--nx-cyan:#00f3ff;--nx-purple:#9d00ff;--nx-muted:#9ca3af}
+body{background:radial-gradient(ellipse at 78% 5%,rgba(157,0,255,.10),transparent 34%),radial-gradient(ellipse at 5% 45%,rgba(0,243,255,.07),transparent 32%),var(--nx-bg)!important}
+.nexora-store{max-width:1500px!important}
+.store-layout{display:grid;grid-template-columns:245px minmax(0,1fr);gap:24px;align-items:start}
+.store-sidebar{position:sticky;top:104px;background:linear-gradient(160deg,rgba(20,20,42,.98),rgba(12,12,27,.98));border:1px solid rgba(0,243,255,.22);border-radius:22px;padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.035)}
+.sidebar-heading{display:flex;align-items:center;gap:10px;color:#fff;font-family:Orbitron,sans-serif;font-weight:800;font-size:14px;letter-spacing:.04em;margin-bottom:18px}.sidebar-heading i{color:var(--nx-cyan)}
+.sidebar-search{height:43px;display:flex;align-items:center;gap:10px;padding:0 12px;background:#090918;border:1px solid rgba(0,243,255,.22);border-radius:12px;margin-bottom:24px}.sidebar-search i{color:var(--nx-cyan);font-size:13px}.sidebar-search input{width:100%;min-width:0;background:transparent;border:0;outline:0;color:#fff;font-size:13px}.sidebar-search input::placeholder{color:#777b91}
+.filter-section h3{display:flex;align-items:center;gap:9px;color:#e8e9f4;font:700 12px Orbitron,sans-serif;text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px}.filter-section h3 i{color:var(--nx-purple)}.genre-list{display:flex;flex-direction:column;gap:6px}.genre-option{display:flex;align-items:center;gap:11px;width:100%;padding:11px 12px;border:1px solid transparent;border-radius:11px;background:transparent;color:#aeb2c6;text-align:left;font-size:13px;transition:.2s}.genre-option i{width:16px;text-align:center;color:#777d9b}.genre-option:hover{background:rgba(0,243,255,.07);border-color:rgba(0,243,255,.16);color:#fff}.genre-option.active{background:linear-gradient(100deg,rgba(0,243,255,.16),rgba(157,0,255,.13));border-color:rgba(0,243,255,.38);color:#fff;box-shadow:inset 3px 0 var(--nx-cyan)}.genre-option.active i{color:var(--nx-cyan)}
+.sidebar-note{display:flex;gap:12px;align-items:center;margin-top:25px;padding:14px 12px;border-radius:14px;background:linear-gradient(120deg,rgba(0,243,255,.09),rgba(157,0,255,.10));border:1px solid rgba(157,0,255,.2)}.sidebar-note>i{font-size:22px;color:var(--nx-cyan)}.sidebar-note div{display:flex;flex-direction:column;gap:3px}.sidebar-note strong{font:700 10px Orbitron,sans-serif;color:#fff;letter-spacing:.08em}.sidebar-note span{font-size:10px;color:#9da3b9;line-height:1.4}
+.store-content{min-width:0}.store-hero{position:relative;isolation:isolate;overflow:hidden;min-height:270px;display:flex;align-items:center;justify-content:space-between;padding:34px 42px;margin-bottom:30px;border:1px solid rgba(0,243,255,.28);border-radius:24px;background:linear-gradient(110deg,#11152a 0%,#17132f 55%,#101b31 100%);box-shadow:0 16px 45px rgba(0,0,0,.28)}.hero-copy{position:relative;z-index:2;max-width:620px}.hero-kicker,.section-eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--nx-cyan);font:700 10px Orbitron,sans-serif;letter-spacing:.16em}.pulse-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--nx-cyan);box-shadow:0 0 12px var(--nx-cyan)}.hero-copy h2{font:900 clamp(28px,4vw,48px)/1.12 Orbitron,sans-serif;letter-spacing:-.04em;color:#fff;margin:15px 0 12px}.hero-copy h2 span{background:linear-gradient(90deg,var(--nx-cyan),#b28cff,var(--nx-purple));-webkit-background-clip:text;background-clip:text;color:transparent}.hero-copy p{max-width:510px;color:#b5bad0;font-size:14px;line-height:1.7;margin:0}.hero-actions{display:flex;flex-wrap:wrap;gap:18px;margin-top:22px}.hero-actions span{font-size:11px;color:#d7d9e8}.hero-actions i{color:var(--nx-cyan);margin-right:6px}.hero-art{position:relative;z-index:1;width:210px;height:190px;flex:0 0 210px;display:grid;place-items:center;color:var(--nx-cyan)}.hero-art>i{font-size:92px;filter:drop-shadow(0 0 18px rgba(0,243,255,.55));transform:rotate(-12deg)}.hero-ring{position:absolute;border:1px solid rgba(0,243,255,.25);border-radius:50%;width:175px;height:175px}.ring-two{width:220px;height:220px;border-color:rgba(157,0,255,.28)}.hero-art-label{position:absolute;right:-5px;bottom:3px;font:900 10px/1.25 Orbitron,sans-serif;letter-spacing:.12em;color:#d5c3ff;text-shadow:0 0 12px var(--nx-purple)}.hero-glow{position:absolute;z-index:-1;width:360px;height:360px;right:4%;top:-35%;border-radius:50%;background:radial-gradient(circle,rgba(0,243,255,.16),rgba(157,0,255,.08) 42%,transparent 70%);pointer-events:none}
+.catalog-toolbar{display:flex;justify-content:space-between;align-items:end;gap:14px;margin:0 0 18px}.section-eyebrow{font-size:9px;color:#a78bfa}.catalog-toolbar h2{font:800 21px Orbitron,sans-serif;color:#fff;margin:7px 0 0}.catalog-chip{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:1px solid rgba(0,243,255,.2);background:rgba(0,243,255,.06);color:#bfc5d9;font-size:10px;white-space:nowrap}
+#gamesGrid{align-items:stretch}#gamesGrid .game-card{background:linear-gradient(160deg,#19192e,#101020)!important;border:1px solid rgba(0,243,255,.15)!important;border-radius:18px!important;box-shadow:0 8px 24px rgba(0,0,0,.2);transition:transform .25s,border-color .25s,box-shadow .25s}#gamesGrid .game-card:hover{transform:translateY(-5px);border-color:rgba(0,243,255,.48)!important;box-shadow:0 14px 32px rgba(0,243,255,.09)}
+@media(max-width:900px){.store-layout{grid-template-columns:205px minmax(0,1fr);gap:16px}.store-sidebar{padding:15px}.store-hero{padding:28px;min-height:245px}.hero-art{width:145px;flex-basis:145px}.hero-art>i{font-size:70px}.hero-ring{width:140px;height:140px}.ring-two{width:175px;height:175px}}
+@media(max-width:680px){.store-layout{grid-template-columns:1fr;gap:17px}.store-sidebar{position:static;top:auto;padding:15px}.sidebar-heading{margin-bottom:13px}.sidebar-search{margin-bottom:16px}.filter-section h3{margin-bottom:9px}.genre-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.genre-option{padding:10px 9px;font-size:11px}.sidebar-note{display:none}.store-hero{min-height:230px;padding:24px 20px;margin-bottom:24px}.hero-copy{max-width:100%}.hero-copy h2{font-size:27px}.hero-copy p{font-size:12px;max-width:95%}.hero-art{position:absolute;right:-35px;bottom:-35px;opacity:.22;width:160px;height:160px}.hero-art>i{font-size:90px}.hero-ring{width:145px;height:145px}.ring-two{width:190px;height:190px}.hero-art-label{display:none}.hero-actions{gap:12px;margin-top:16px}.hero-actions span{font-size:10px}.catalog-toolbar h2{font-size:18px}.catalog-chip{font-size:9px;padding:7px 9px}}
+</style>
+
 </head>
 <body class="min-h-screen bg-[#0a0a16] text-white selection:bg-cyber-blue selection:text-black">
 
@@ -104,43 +96,50 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="max-w-7xl mx-auto px-4 py-8">
-        <!-- HERO BANNER -->
-        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-cyber-purple/20 via-cyber-card to-cyber-blue/20 border border-cyber-border p-8 mb-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="space-y-3 max-w-2xl">
-                <span class="px-3 py-1 bg-cyber-blue/20 border border-cyber-blue text-cyber-blue text-xs font-cyber rounded-full uppercase">Alta Definición HD</span>
-                <h2 class="text-3xl md:text-5xl font-black font-cyber tracking-wide">80 JUEGOS PARA PS4</h2>
-                <p class="text-gray-300 text-base md:text-lg">Consulta tamaños aproximados, elige tus juegos favoritos y envía tu solicitud directamente por WhatsApp.</p>
+    <!-- MAIN CONTENT: NEXORA PLAY 2.0 STORE LAYOUT -->
+    <main class="nexora-store max-w-7xl mx-auto px-4 py-6 md:py-8">
+      <div class="store-layout">
+        <aside class="store-sidebar">
+          <div class="sidebar-heading"><i class="fa-solid fa-sliders"></i><span>Explorar juegos</span></div>
+          <div class="sidebar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" oninput="filterGames()" placeholder="Buscar juego..." aria-label="Buscar juego">
+          </div>
+          <section class="filter-section">
+            <h3><i class="fa-solid fa-layer-group"></i> Categorías</h3>
+            <div class="genre-list">
+              <button onclick="setGenre('all')" id="btn-all" class="genre-option active"><i class="fa-solid fa-border-all"></i> Todos los juegos</button>
+              <button onclick="setGenre('Acción')" id="btn-Acción" class="genre-option"><i class="fa-solid fa-bolt"></i> Acción</button>
+              <button onclick="setGenre('Aventura')" id="btn-Aventura" class="genre-option"><i class="fa-solid fa-compass"></i> Aventura</button>
+              <button onclick="setGenre('Deportes')" id="btn-Deportes" class="genre-option"><i class="fa-solid fa-futbol"></i> Deportes</button>
+              <button onclick="setGenre('RPG')" id="btn-RPG" class="genre-option"><i class="fa-solid fa-dragon"></i> RPG</button>
+              <button onclick="setGenre('Peleas')" id="btn-Peleas" class="genre-option"><i class="fa-solid fa-hand-fist"></i> Peleas</button>
             </div>
-            <div class="flex flex-col gap-3 w-full md:w-auto">
-                <div class="bg-cyber-card/90 border border-cyber-blue/30 rounded-2xl p-4 text-center">
-                    <span class="text-xs text-gray-400 block font-cyber">TOTAL DISPONIBLES</span>
-                    <span class="text-3xl font-black font-cyber text-cyber-blue">80 JUEGOS</span>
-                </div>
-            </div>
-        </div>
+          </section>
+          <div class="sidebar-note"><i class="fa-solid fa-gamepad"></i><div><strong>NEXORA PLAY</strong><span>Tu próxima aventura comienza aquí.</span></div></div>
+        </aside>
 
-        <!-- SEARCH & FILTERS -->
-        <div class="flex flex-col md:flex-row gap-4 mb-8">
-            <div class="relative flex-1">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                <input type="text" id="searchInput" oninput="filterGames()" placeholder="Buscar juego por título..." class="w-full bg-cyber-card border border-cyber-border rounded-2xl pl-12 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-cyber-blue transition">
+        <section class="store-content">
+          <div class="store-hero">
+            <div class="hero-copy">
+              <span class="hero-kicker"><span class="pulse-dot"></span> CATÁLOGO GAMER • PS4</span>
+              <h2>ENCUENTRA TU<br><span>PRÓXIMO JUEGO</span></h2>
+              <p>Explora el catálogo, descubre tus favoritos y solicita tus juegos directamente por WhatsApp.</p>
+              <div class="hero-actions"><span><i class="fa-solid fa-images"></i> Carátulas de juegos</span><span><i class="fa-brands fa-whatsapp"></i> Solicitud directa</span></div>
             </div>
-            <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0">
-                <button onclick="setGenre('all')" id="btn-all" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-gradient-to-r from-cyber-blue to-cyber-purple text-black font-bold whitespace-nowrap">Todos</button>
-                <button onclick="setGenre('Acción')" id="btn-Acción" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap">Acción</button>
-                <button onclick="setGenre('Aventura')" id="btn-Aventura" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap">Aventura</button>
-                <button onclick="setGenre('Deportes')" id="btn-Deportes" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap">Deportes</button>
-                <button onclick="setGenre('RPG')" id="btn-RPG" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap">RPG</button>
-                <button onclick="setGenre('Peleas')" id="btn-Peleas" class="px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap">Peleas</button>
-            </div>
-        </div>
+            <div class="hero-art" aria-hidden="true"><div class="hero-ring ring-one"></div><div class="hero-ring ring-two"></div><i class="fa-solid fa-gamepad"></i><span class="hero-art-label">PLAY<br>WITHOUT<br>LIMITS</span></div>
+            <div class="hero-glow"></div>
+          </div>
 
-        <!-- GAMES GRID -->
-        <div id="gamesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div class="catalog-toolbar">
+            <div><span class="section-eyebrow">BIBLIOTECA DIGITAL</span><h2>Todos los juegos</h2></div>
+            <div class="catalog-chip"><span class="pulse-dot"></span> Catálogo disponible</div>
+          </div>
+          <div id="gamesGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
             <!-- Los juegos se cargan dinámicamente con JavaScript -->
-        </div>
+          </div>
+        </section>
+      </div>
     </main>
 
     <!-- FOOTER -->
@@ -675,13 +674,9 @@
 
         function setGenre(genre) {
             currentGenre = genre;
-            document.querySelectorAll('button[id^="btn-"]').forEach(btn => {
-                btn.className = "px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-cyber-card border border-cyber-border text-gray-300 hover:border-cyber-blue whitespace-nowrap";
-            });
+            document.querySelectorAll('.genre-option').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.getElementById('btn-' + genre);
-            if(activeBtn) {
-                activeBtn.className = "px-5 py-3 rounded-2xl font-cyber text-xs uppercase tracking-wider bg-gradient-to-r from-cyber-blue to-cyber-purple text-black font-bold whitespace-nowrap";
-            }
+            if (activeBtn) activeBtn.classList.add('active');
             filterGames();
         }
 
@@ -756,45 +751,6 @@ ${list}
             const percentage = Math.min(100, (selectedGB / capacity) * 100);
             document.getElementById('stoBar').style.width = percentage + '%';
         }
-
-
-        // Reorganizar visualmente el catálogo sin modificar datos, carátulas ni funciones existentes.
-        (function buildNexoraStoreLayout(){
-            const main = document.querySelector('main.max-w-7xl');
-            if (!main) return;
-            const hero = main.children[0];
-            const filters = main.children[1];
-            const grid = document.getElementById('gamesGrid');
-            if (!hero || !filters || !grid) return;
-            const searchWrap = filters.querySelector('.relative.flex-1');
-            const genreWrap = filters.querySelector('.flex.gap-2.overflow-x-auto');
-            const layout = document.createElement('section');
-            layout.className = 'nexora-shop-layout';
-            const sidebar = document.createElement('aside');
-            sidebar.className = 'nexora-sidebar';
-            sidebar.setAttribute('aria-label','Filtros del catálogo');
-            const searchTitle = document.createElement('h3');
-            searchTitle.className = 'nexora-sidebar-title';
-            searchTitle.textContent = 'Buscar juegos';
-            sidebar.appendChild(searchTitle);
-            if (searchWrap) { searchWrap.className += ' nexora-search'; sidebar.appendChild(searchWrap); }
-            const genreTitle = document.createElement('h3');
-            genreTitle.className = 'nexora-sidebar-title';
-            genreTitle.textContent = 'Categorías';
-            sidebar.appendChild(genreTitle);
-            if (genreWrap) { genreWrap.className = 'nexora-filter-group'; sidebar.appendChild(genreWrap); }
-            const content = document.createElement('div');
-            content.className = 'nexora-games-content';
-            const heading = document.createElement('div');
-            heading.className = 'nexora-results-head';
-            heading.innerHTML = '<h2>EXPLORA EL CATÁLOGO</h2><span>PLAY • SELECT • ENJOY</span>';
-            content.appendChild(heading);
-            content.appendChild(grid);
-            layout.appendChild(sidebar);
-            layout.appendChild(content);
-            filters.remove();
-            hero.after(layout);
-        })();
 
         // Inicializar
         renderGames();
