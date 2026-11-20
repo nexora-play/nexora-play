@@ -364,6 +364,33 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
 @media(prefers-reduced-motion:reduce){.nx-bottom-nav *{transition:none!important}}
 </style>
 
+
+<style id="nexora-full-game-covers-fix">
+/* Mostrar completas las caratulas verticales de PS4 en movil, sin recortarlas. */
+@media(max-width:680px){
+  #gamesGrid .cover-frame{
+    aspect-ratio:264 / 374 !important;
+    width:100% !important;
+    height:auto !important;
+    padding:7px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    overflow:hidden !important;
+    background:linear-gradient(145deg,#101a32,#080d1b) !important;
+  }
+  #gamesGrid .cover-frame img{
+    width:100% !important;
+    height:100% !important;
+    max-width:100% !important;
+    max-height:100% !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    border-radius:8px !important;
+  }
+}
+</style>
+
 </head>
 <body class="min-h-screen bg-[#0a0a16] text-white selection:bg-cyber-blue selection:text-black">
     <div class="nx-mobile-loader" id="nxMobileLoader" aria-label="Cargando NEXORA PLAY">
