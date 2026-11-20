@@ -252,6 +252,118 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
 @media(prefers-reduced-motion:reduce){header.sticky #adminSecretTrigger{animation:none!important}}
 </style>
 
+
+<style id="nexora-mobile-reference-polish-v3">
+/* Ajuste visual móvil inspirado en la referencia elegida. No altera lógica ni datos. */
+@media(max-width:680px){
+  .nexora-store{padding:12px 12px 34px!important}
+  .store-hero{border-radius:18px!important;border:1px solid rgba(75,125,255,.55)!important;box-shadow:0 10px 30px rgba(0,0,0,.28),0 0 18px rgba(0,150,255,.10)!important}
+  .nx-mobile-featured{margin:0!important}
+  .nx-featured-heading{padding:10px 13px 3px!important;font-size:9px!important;letter-spacing:.16em!important;color:#cbd5f1!important}
+  .nx-featured-track{padding:7px 0 12px!important;scroll-padding-inline:0!important}
+  .nx-featured-card{height:clamp(190px,58vw,245px)!important;border-radius:13px!important;overflow:hidden!important;position:relative!important}
+  .nx-featured-card img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 28%!important;filter:saturate(1.06)!important}
+  .nx-featured-card:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,8,22,.72),rgba(4,8,22,.05) 80%),linear-gradient(0deg,rgba(4,8,22,.7),transparent 60%)!important;pointer-events:none}
+  .nx-featured-caption{left:15px!important;right:15px!important;bottom:16px!important;font-size:17px!important;font-weight:800!important;text-shadow:0 2px 12px #000!important}
+  .nx-featured-caption small{font-size:8px!important;letter-spacing:.16em!important;color:#42dfff!important}
+  .nx-featured-dots{display:inline-flex!important;gap:6px!important;align-items:center!important}
+  .nx-featured-dots i{width:7px!important;height:7px!important;border-radius:50%!important;background:#7785a7!important;display:inline-block!important}
+  .nx-featured-dots i.active{width:19px!important;border-radius:8px!important;background:#12d8ff!important;box-shadow:0 0 10px rgba(18,216,255,.6)!important}
+  .filter-section{padding:2px 0 0!important}
+  .filter-section h3{display:flex!important;align-items:center!important;gap:8px!important;font-size:15px!important;font-weight:800!important;letter-spacing:.02em!important;margin:8px 2px 10px!important;color:#edf2ff!important}
+  .filter-section h3:before{content:"";display:inline-block;width:4px;height:22px;border-radius:5px;background:#10d9ff;box-shadow:0 0 12px rgba(16,217,255,.55)}
+  .genre-list{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;overflow:visible!important;gap:8px!important;padding:0 0 8px!important}
+  .genre-option{min-width:0!important;min-height:76px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:7px!important;padding:10px 4px!important;border:1px solid rgba(93,115,190,.42)!important;border-radius:14px!important;background:linear-gradient(145deg,#131c35,#0b1122)!important;color:#e7edff!important;font-size:10px!important;font-weight:700!important;letter-spacing:.02em!important;white-space:normal!important;box-shadow:inset 0 1px rgba(255,255,255,.04)!important}
+  .genre-option i{font-size:21px!important;color:#c5d5ff!important}
+  .genre-option.active{background:linear-gradient(145deg,#087eff,#1648b9)!important;border-color:#31d9ff!important;color:#fff!important;box-shadow:0 0 17px rgba(0,150,255,.32)!important}
+  .genre-option.active i{color:#fff!important}
+  .catalog-toolbar{display:flex!important;align-items:end!important;justify-content:space-between!important;gap:8px!important;margin:12px 1px 12px!important;padding:0 1px 10px!important;border-bottom:1px solid rgba(130,150,210,.16)!important}
+  .catalog-toolbar .section-eyebrow{font-size:8px!important;letter-spacing:.12em!important}
+  .catalog-toolbar h2{font-size:17px!important;font-weight:900!important;letter-spacing:.01em!important}
+  .catalog-chip{font-size:8px!important;white-space:nowrap!important}
+  #gamesGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+  #gamesGrid .game-card{border:1px solid rgba(67,137,255,.42)!important;border-radius:16px!important;background:linear-gradient(160deg,#111b34,#090e1d)!important;box-shadow:0 8px 24px rgba(0,0,0,.28)!important;overflow:hidden!important}
+  #gamesGrid .cover-frame{aspect-ratio:4/3!important;padding:6px!important;background:linear-gradient(145deg,#121d36,#090d1a)!important;overflow:hidden!important}
+  #gamesGrid .cover-frame img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 24%!important;border-radius:10px!important}
+  #gamesGrid .game-card .p-4{padding:10px!important}
+  #gamesGrid .game-card h3{font-size:11px!important;line-height:1.28!important;min-height:29px!important;font-weight:800!important}
+  #gamesGrid .game-card p{font-size:9px!important;line-height:1.4!important}
+  #gamesGrid .game-card button{min-height:35px!important;font-size:9px!important;border-radius:10px!important}
+  header.sticky>div{gap:8px!important;padding:10px 12px!important}
+  header.sticky>div>div:first-child{width:auto!important;flex:1 1 auto!important;min-width:0!important}
+  header.sticky #adminSecretTrigger{font-size:clamp(15px,4.5vw,20px)!important;letter-spacing:.035em!important}
+  header.sticky #adminSecretTrigger+p{font-size:6.5px!important;letter-spacing:.07em!important}
+  .nx-mobile-header-actions{gap:7px!important}
+  .nx-mobile-search,.nx-mobile-menu{width:37px!important;height:37px!important;min-width:37px!important}
+  header.sticky>div>div:last-child{display:flex!important;width:100%!important;gap:7px!important;margin-top:1px!important}
+  header.sticky>div>div:last-child button{flex:1 1 0!important;min-width:0!important;min-height:31px!important;padding:6px 4px!important;font-size:8px!important}
+}
+@media(max-width:370px){
+  .genre-option{min-height:68px!important;font-size:9px!important}
+  .genre-option i{font-size:18px!important}
+  #gamesGrid .cover-frame{aspect-ratio:1/1.05!important}
+}
+</style>
+
+
+<style id="nexora-reference-design-v4">
+/* Diseño móvil inspirado en la referencia aprobada. Solo presentación; conserva la lógica existente. */
+@media(max-width:680px){
+  body{padding-bottom:78px!important;background:radial-gradient(ellipse at 50% 0%,rgba(15,43,95,.34),transparent 42%),#050814!important}
+  #nxTopHeader{position:relative!important;top:auto!important;background:linear-gradient(105deg,#071326 0%,#080b1d 58%,#17072b 100%)!important;border-bottom:1px solid rgba(31,181,255,.45)!important;box-shadow:0 5px 22px rgba(0,122,255,.12),0 3px 20px rgba(144,0,255,.10)!important}
+  #nxTopHeader>div{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:8px!important;padding:10px 12px!important}
+  #nxTopHeader>div>div:first-child{width:auto!important;flex:1 1 auto!important;min-width:0!important;display:flex!important;align-items:center!important;gap:9px!important}
+  #nxTopHeader>div>div:first-child>div:first-child{width:42px!important;height:42px!important;flex:0 0 42px!important;border-radius:50%!important;box-shadow:0 0 15px rgba(0,197,255,.38)!important}
+  #nxTopHeader #adminSecretTrigger{font-size:clamp(15px,4.6vw,20px)!important;line-height:1.05!important;letter-spacing:.025em!important;white-space:nowrap!important;animation:nxBrandTint 8s ease-in-out infinite alternate!important}
+  #nxTopHeader #adminSecretTrigger+p{font-size:6px!important;letter-spacing:.07em!important;white-space:nowrap!important;margin-top:3px!important}
+  .nx-mobile-header-actions{gap:7px!important;flex:0 0 auto!important}
+  .nx-mobile-search,.nx-mobile-menu{width:38px!important;height:38px!important;min-width:38px!important;border-radius:50%!important;background:rgba(8,17,39,.95)!important;border:1px solid #168dff!important;box-shadow:0 0 12px rgba(0,163,255,.18)!important}
+  .nx-mobile-menu:before{content:"☰"!important}
+  #nxTopHeader>div>div:last-child{display:none!important}
+  .nexora-store{padding:12px 12px 22px!important}
+  .store-layout{display:flex!important;flex-direction:column!important;gap:13px!important}
+  .store-sidebar{display:contents!important}
+  .store-content{display:contents!important}
+  .store-hero{order:1!important;width:100%!important;margin:0!important;padding:0!important;min-height:0!important;border-radius:17px!important;overflow:hidden!important;border:1px solid rgba(50,133,255,.65)!important;background:linear-gradient(145deg,#101d3b,#080d1e)!important;box-shadow:0 0 17px rgba(0,125,255,.14),0 0 18px rgba(139,0,255,.10)!important}
+  .hero-copy,.hero-art,.hero-glow{display:none!important}
+  .nx-mobile-featured{display:block!important;width:100%!important;margin:0!important;padding:0!important}
+  .nx-featured-heading{padding:9px 12px 0!important;margin:0!important;font-size:8px!important;color:#b8c9e9!important;letter-spacing:.15em!important}
+  .nx-featured-track{display:flex!important;gap:0!important;padding:8px 0 10px!important;overflow-x:auto!important;scroll-snap-type:x mandatory!important;overscroll-behavior-x:contain!important;touch-action:pan-x pan-y!important}
+  .nx-featured-card{flex:0 0 100%!important;width:100%!important;height:clamp(190px,58vw,245px)!important;border:0!important;border-radius:0!important;scroll-snap-align:center!important;box-shadow:none!important}
+  .nx-featured-card img{object-fit:cover!important;object-position:center 25%!important;opacity:1!important}
+  .nx-featured-card:after{background:linear-gradient(90deg,rgba(3,8,22,.75),rgba(3,8,22,.12) 82%),linear-gradient(0deg,rgba(3,8,22,.48),transparent 58%)!important}
+  .nx-featured-caption{left:15px!important;bottom:15px!important;font-size:16px!important;text-shadow:0 2px 9px #000!important}
+  .nx-featured-caption small{font-size:8px!important;color:#39d8ff!important}
+  .filter-section{order:2!important;display:block!important;margin:3px 0 0!important;padding:0!important}
+  .filter-section h3{font-family:Orbitron,sans-serif!important;font-size:14px!important;font-weight:800!important;letter-spacing:.04em!important;margin:0 0 9px!important;color:#edf4ff!important}
+  .genre-list{display:flex!important;flex-direction:row!important;gap:8px!important;overflow-x:auto!important;padding:2px 2px 9px!important;scrollbar-width:none!important;overscroll-behavior-x:contain!important}
+  .genre-list::-webkit-scrollbar{display:none!important}
+  .genre-option{display:flex!important;flex:0 0 83px!important;min-height:72px!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:6px!important;padding:8px 5px!important;border-radius:13px!important;border:1px solid rgba(73,115,220,.55)!important;background:linear-gradient(150deg,#111a35,#0a1022)!important;color:#dbe7ff!important;font-size:9px!important;white-space:nowrap!important;box-shadow:0 5px 13px rgba(0,0,0,.18)!important}
+  .genre-option i{font-size:20px!important;color:#c6d8ff!important}
+  .genre-option.active{background:linear-gradient(130deg,#00c8f4,#315dff 60%,#9a20ff)!important;color:#fff!important;border-color:#25dfff!important;box-shadow:0 0 16px rgba(0,190,255,.35)!important}
+  .genre-option.active i{color:#fff!important}
+  .catalog-toolbar{order:3!important;margin:5px 0 10px!important;padding:0 2px 8px!important;border-bottom:1px solid rgba(45,155,255,.25)!important}
+  .catalog-toolbar h2{font-size:17px!important;font-weight:900!important;letter-spacing:.01em!important}
+  .catalog-toolbar .section-eyebrow{font-size:7px!important;letter-spacing:.15em!important;color:#39cfff!important}
+  .catalog-chip{font-size:8px!important;padding:6px 8px!important;border-radius:20px!important}
+  #gamesGrid{order:4!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}
+  #gamesGrid .game-card{border:1px solid rgba(60,139,255,.48)!important;border-radius:15px!important;background:linear-gradient(160deg,#121d38,#080e1e)!important;box-shadow:0 8px 22px rgba(0,0,0,.28)!important;overflow:hidden!important}
+  #gamesGrid .cover-frame{aspect-ratio:4/3!important;padding:5px!important;background:#0b1429!important}
+  #gamesGrid .cover-frame img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 24%!important;border-radius:9px!important}
+  #gamesGrid .game-card .p-4{padding:9px!important}
+  #gamesGrid .game-card h3{font-size:11px!important;line-height:1.25!important;min-height:28px!important;font-weight:800!important}
+  #gamesGrid .game-card p{font-size:9px!important;line-height:1.35!important}
+  #gamesGrid .game-card button{min-height:34px!important;font-size:9px!important;border-radius:9px!important}
+  footer{margin-top:20px!important;padding-bottom:22px!important}
+  .nx-bottom-nav{position:fixed!important;left:10px!important;right:10px!important;bottom:8px!important;z-index:9990!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:2px!important;padding:7px 5px!important;border:1px solid rgba(39,145,255,.65)!important;border-radius:19px!important;background:rgba(6,11,28,.94)!important;backdrop-filter:blur(16px)!important;box-shadow:0 0 18px rgba(0,135,255,.19),0 0 18px rgba(143,0,255,.13)!important}
+  .nx-bottom-nav a{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:3px!important;min-height:42px!important;color:#c7d3f4!important;text-decoration:none!important;font:600 8px Rajdhani,sans-serif!important}
+  .nx-bottom-nav i{font-size:17px!important}
+  .nx-bottom-nav a:first-child{color:#22d7ff!important}
+}
+@media(min-width:681px){.nx-bottom-nav{display:none!important}}
+@media(prefers-reduced-motion:reduce){.nx-bottom-nav *{transition:none!important}}
+</style>
+
 </head>
 <body class="min-h-screen bg-[#0a0a16] text-white selection:bg-cyber-blue selection:text-black">
     <div class="nx-mobile-loader" id="nxMobileLoader" aria-label="Cargando NEXORA PLAY">
@@ -275,7 +387,7 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
     </div>
 
     <!-- HEADER -->
-    <header class="sticky top-0 z-50 bg-[#0a0a16]/90 backdrop-blur-md border-b border-cyber-border">
+    <header id="nxTopHeader" class="sticky top-0 z-50 bg-[#0a0a16]/90 backdrop-blur-md border-b border-cyber-border">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyber-blue to-cyber-purple flex items-center justify-center neon-glow-blue">
@@ -313,7 +425,7 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" id="searchInput" oninput="filterGames()" placeholder="Buscar juego..." aria-label="Buscar juego">
           </div>
-          <section class="filter-section">
+          <section class="filter-section" id="nxCategories">
             <h3><i class="fa-solid fa-layer-group"></i> Categorías</h3>
             <div class="genre-list">
               <button onclick="setGenre('all')" id="btn-all" class="genre-option active"><i class="fa-solid fa-border-all"></i> Todos los juegos</button>
@@ -327,7 +439,7 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
           <div class="sidebar-note"><i class="fa-solid fa-gamepad"></i><div><strong>NEXORA PLAY</strong><span>Tu próxima aventura comienza aquí.</span></div></div>
         </aside>
 
-        <section class="store-content">
+        <section class="store-content" id="nxCatalogHome">
           <div class="store-hero">
             <div class="hero-copy">
               <span class="hero-kicker"><span class="pulse-dot"></span> CATÁLOGO GAMER • PS4</span>
@@ -343,7 +455,7 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
             </div>
           </div>
 
-          <div class="catalog-toolbar">
+          <div class="catalog-toolbar" id="nxAllGames">
             <div><span class="section-eyebrow">BIBLIOTECA DIGITAL</span><h2>Todos los juegos</h2></div>
             <div class="catalog-chip"><span class="pulse-dot"></span> Catálogo disponible</div>
           </div>
@@ -353,6 +465,14 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
         </section>
       </div>
     </main>
+
+
+<nav class="nx-bottom-nav" aria-label="Navegación rápida">
+ <a href="#nxTopHeader" aria-label="Inicio"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
+ <a href="#nxCategories" aria-label="Categorías"><i class="fa-solid fa-border-all"></i><span>Categorías</span></a>
+ <a href="#searchInput" onclick="setTimeout(()=>document.getElementById('searchInput')?.focus(),250)" aria-label="Buscar"><i class="fa-solid fa-magnifying-glass"></i><span>Buscar</span></a>
+ <a href="javascript:void(0)" onclick="contactWhatsapp()" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></a>
+</nav>
 
     <!-- FOOTER -->
     <footer class="border-t border-cyber-border mt-20 py-8 bg-cyber-card/50 text-center">
