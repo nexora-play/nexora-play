@@ -196,6 +196,62 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
 @media(prefers-reduced-motion:reduce){.nx-mobile-loader,.nx-controller-wrap,.nx-loader-bar span,.nx-loader-brand,#adminSecretTrigger{animation:none!important;transition:none!important}}
 </style>
 
+
+<style id="nexora-mobile-reference-header">
+/* Cabecera y jerarquía visual móvil inspiradas en el diseño aprobado. Solo CSS móvil. */
+.nx-mobile-header-actions{display:flex;align-items:center;gap:10px}
+.nx-mobile-search{display:none}
+@media(max-width:680px){
+  header.sticky{background:rgba(5,8,19,.96)!important;border-bottom:1px solid rgba(0,210,255,.24)!important;box-shadow:0 8px 28px rgba(0,0,0,.34)!important}
+  header.sticky>div{display:flex!important;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;gap:7px!important;padding:10px 13px!important;flex-wrap:wrap!important}
+  header.sticky>div>div:first-child{width:100%!important;min-width:0;display:flex!important;justify-content:flex-start!important;gap:9px!important;position:static!important}
+  header.sticky>div>div:first-child>div:first-child{width:40px!important;height:40px!important;border-radius:13px!important;flex:0 0 40px}
+  header.sticky #adminSecretTrigger{font-size:clamp(16px,4.8vw,21px)!important;letter-spacing:.045em!important;white-space:nowrap;animation:nxBrandTint 9s ease-in-out infinite alternate}
+  header.sticky #adminSecretTrigger+p{font-size:7px!important;letter-spacing:.08em!important;white-space:nowrap}
+  .nx-mobile-header-actions{display:flex!important;gap:8px!important;align-items:center!important}
+  .nx-mobile-search,.nx-mobile-menu{display:flex!important;width:39px!important;height:39px!important;min-width:39px!important;align-items:center!important;justify-content:center!important;border-radius:50%!important;background:rgba(14,20,43,.92)!important;border:1px solid rgba(0,205,255,.55)!important;color:#e8f7ff!important;font-size:16px!important;box-shadow:0 0 13px rgba(0,175,255,.12)!important}
+  .nx-mobile-menu{font-size:0!important;line-height:1!important}.nx-mobile-menu:before{content:"☰";font-size:19px!important}
+  header.sticky>div>div:last-child{display:grid!important;grid-template-columns:1fr 1fr!important;width:100%!important;gap:7px!important;margin-top:2px!important}
+  header.sticky>div>div:last-child button{justify-content:center!important;padding:7px 5px!important;font-size:9px!important;border-radius:10px!important;min-height:33px!important}
+  .nexora-store{padding:12px 11px 26px!important}
+  .store-layout{display:flex!important;flex-direction:column!important;gap:14px!important}
+  .store-content,.store-sidebar{display:contents!important}
+  .store-hero{order:1!important;width:100%!important;min-height:0!important;padding:0!important;margin:0 0 2px!important;border-radius:17px!important;border:1px solid rgba(35,160,255,.5)!important;background:#0b1224!important;box-shadow:0 0 18px rgba(0,110,255,.12),0 0 25px rgba(145,0,255,.08)!important}
+  .hero-copy{display:none!important}
+  .hero-glow{display:none!important}
+  .hero-art{display:none!important}
+  .nx-mobile-featured{display:block!important;width:100%!important;margin:0!important;padding:0!important;overflow:hidden!important}
+  .nx-featured-heading{padding:10px 12px 0!important;font-size:8px!important;color:#9db5d4!important}
+  .nx-featured-track{gap:0!important;padding:8px 0 10px!important;scroll-snap-type:x mandatory!important;overscroll-behavior-x:contain!important;touch-action:pan-x pan-y!important}
+  .nx-featured-card{flex:0 0 100%!important;width:100%!important;height:clamp(174px,52vw,225px)!important;border:0!important;border-radius:0!important;box-shadow:none!important;scroll-snap-align:center!important}
+  .nx-featured-card img{object-fit:cover!important;object-position:center 27%!important;opacity:1!important}
+  .nx-featured-card:after{background:linear-gradient(90deg,rgba(4,8,20,.8),rgba(4,8,20,.08) 78%),linear-gradient(0deg,rgba(4,8,20,.55),transparent 58%)!important}
+  .nx-featured-caption{left:15px!important;bottom:15px!important;font-size:16px!important}
+  .nx-featured-caption small{font-size:8px!important}
+  .store-sidebar{width:100%!important}
+  .sidebar-heading,.sidebar-note{display:none!important}
+  .sidebar-search{order:2!important;width:100%!important;height:42px!important;margin:0!important;border-radius:12px!important;background:#11182b!important;border-color:rgba(0,200,255,.25)!important}
+  .filter-section{order:3!important;width:100%!important;padding:0 1px!important}
+  .filter-section h3{font-size:11px!important;margin:3px 0 9px!important;letter-spacing:.08em!important}
+  .genre-list{display:flex!important;flex-direction:row!important;overflow-x:auto!important;gap:8px!important;padding:1px 1px 7px!important;scrollbar-width:none!important;overscroll-behavior-x:contain!important}
+  .genre-list::-webkit-scrollbar{display:none!important}
+  .genre-option{flex:0 0 auto!important;min-height:39px!important;padding:8px 13px!important;border:1px solid rgba(90,110,160,.28)!important;border-radius:13px!important;background:linear-gradient(145deg,#121a31,#0d1223)!important;color:#d7e1f2!important;font-size:10px!important}
+  .genre-option.active{background:linear-gradient(105deg,#04c9ef,#604cff 68%,#9b20f5)!important;color:#061326!important;border-color:transparent!important;box-shadow:0 0 15px rgba(0,180,255,.2)!important}
+  .catalog-toolbar{order:4!important;width:100%!important;margin:2px 1px 10px!important;padding:0 1px 9px!important}
+  .catalog-toolbar h2{font-size:17px!important;letter-spacing:.01em!important}
+  .catalog-chip{font-size:8px!important;padding:7px 8px!important}
+  #gamesGrid{order:5!important;width:100%!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}
+  #gamesGrid .game-card{border:1px solid rgba(55,160,255,.28)!important;border-radius:15px!important;background:linear-gradient(160deg,#111b31,#0c1020)!important;box-shadow:0 8px 22px rgba(0,0,0,.25)!important;overflow:hidden!important}
+  #gamesGrid .cover-frame{aspect-ratio:264/350!important;padding:7px 7px 2px!important;background:linear-gradient(145deg,#101a30,#090d1a)!important}
+  #gamesGrid .cover-frame img{border-radius:9px!important}
+  #gamesGrid .game-card .p-4{padding:9px!important}
+  #gamesGrid .game-card h3{font-size:11px!important;line-height:1.3!important;min-height:29px!important}
+  #gamesGrid .game-card p{font-size:9px!important}
+  #gamesGrid .game-card button{min-height:36px!important;font-size:9px!important;border-radius:10px!important}
+}
+@media(prefers-reduced-motion:reduce){header.sticky #adminSecretTrigger{animation:none!important}}
+</style>
+
 </head>
 <body class="min-h-screen bg-[#0a0a16] text-white selection:bg-cyber-blue selection:text-black">
     <div class="nx-mobile-loader" id="nxMobileLoader" aria-label="Cargando NEXORA PLAY">
@@ -231,7 +287,10 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
                     </h1>
                     <p class="text-xs text-cyber-blue/80 tracking-widest uppercase font-cyber">Catálogo PS4 • NEXORA PLAY</p>
                 </div>
-                <button type="button" onclick="openPrivateCoverAdmin()" class="flex-shrink-0 w-12 h-12 rounded-xl border-2 border-cyber-blue bg-[#121225] text-cyber-blue text-3xl font-black leading-none shadow-[0_0_14px_rgba(0,243,255,0.35)] hover:bg-cyber-blue/20 active:scale-95" aria-label="Abrir opciones privadas" title="Opciones">⋮</button>
+                <div class="nx-mobile-header-actions">
+                  <button type="button" class="nx-mobile-search" onclick="document.getElementById('searchInput')?.focus();document.getElementById('searchInput')?.scrollIntoView({behavior:'smooth',block:'center'});" aria-label="Buscar juegos" title="Buscar juegos"><i class="fa-solid fa-magnifying-glass"></i></button>
+                  <button type="button" onclick="openPrivateCoverAdmin()" class="flex-shrink-0 w-12 h-12 rounded-xl border-2 border-cyber-blue bg-[#121225] text-cyber-blue text-3xl font-black leading-none shadow-[0_0_14px_rgba(0,243,255,0.35)] hover:bg-cyber-blue/20 active:scale-95 nx-mobile-menu" aria-label="Abrir opciones" title="Opciones">⋮</button>
+                </div>
             </div>
 
             <div class="flex items-center gap-3 w-full md:w-auto justify-end">
