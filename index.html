@@ -1036,7 +1036,10 @@ ${list}
                 active = (index + cards.length) % cards.length;
                 cards.forEach((card, i) => card.classList.toggle('is-active', i === active));
                 indicators.forEach((dot, i) => dot.classList.toggle('active', i === active));
-                if (scroll) cards[active].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+                if (scroll) {
+                    const targetLeft = cards[active].offsetLeft - (track.clientWidth - cards[active].offsetWidth) / 2;
+                    track.scrollTo({left: Math.max(0, targetLeft), behavior: 'smooth'});
+                }
             };
             if (window.nxFeaturedTimer) clearInterval(window.nxFeaturedTimer);
             window.nxFeaturedTimer = setInterval(() => activate(active + 1), 4200);
