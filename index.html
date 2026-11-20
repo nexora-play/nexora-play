@@ -117,8 +117,106 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
 
+
+<style id="nexora-mobile-premium-refresh">
+/* Renovación visual móvil únicamente. La vista de escritorio y la lógica del catálogo permanecen intactas. */
+@media(max-width:680px){
+  header.sticky>div{gap:10px!important;align-items:center!important;padding-top:10px!important;padding-bottom:10px!important}
+  header.sticky>div>div:first-child{width:100%;justify-content:center!important;position:relative}
+  header.sticky>div>div:first-child>div:first-child{width:38px!important;height:38px!important}
+  header.sticky #adminSecretTrigger{font-size:21px!important;letter-spacing:.07em!important;animation:nxBrandTint 8s ease-in-out infinite alternate}
+  header.sticky #adminSecretTrigger+ p{font-size:8px!important;letter-spacing:.12em!important}
+  @keyframes nxBrandTint{0%{filter:hue-rotate(0deg);opacity:1}50%{filter:hue-rotate(15deg);opacity:.94}100%{filter:hue-rotate(-12deg);opacity:1}}
+  header.sticky>div>div:first-child>button{position:absolute;right:0;width:38px!important;height:38px!important;font-size:25px!important}
+  header.sticky>div>div:last-child{display:grid!important;grid-template-columns:1fr 1fr!important;width:100%!important;gap:8px!important}
+  header.sticky>div>div:last-child button{justify-content:center!important;padding:9px 7px!important;font-size:10px!important;border-radius:11px!important}
+  .nexora-store{padding:13px 11px 24px!important}
+  .store-layout{gap:13px!important}
+  .store-sidebar{padding:12px!important;border-radius:15px!important}
+  .sidebar-heading{font-size:10px!important;padding-bottom:10px!important;margin-bottom:10px!important}
+  .sidebar-search{height:42px!important;margin-bottom:12px!important}
+  .sidebar-search input{font-size:13px!important}
+  .filter-section h3{font-size:10px!important}
+  .genre-list{display:flex!important;flex-direction:row!important;overflow-x:auto!important;gap:7px!important;padding:1px 1px 6px!important;scrollbar-width:none}
+  .genre-list::-webkit-scrollbar{display:none}
+  .genre-option{flex:0 0 auto!important;white-space:nowrap!important;min-height:36px!important;padding:8px 11px!important;font-size:10px!important;border:1px solid rgba(255,255,255,.07)!important;background:rgba(255,255,255,.035)!important}
+  .genre-option.active{border-color:rgba(0,195,255,.4)!important;background:linear-gradient(100deg,rgba(0,195,255,.16),rgba(120,90,230,.13))!important}
+  .store-hero{display:block!important;min-height:0!important;padding:20px 16px 13px!important;border-radius:18px!important;margin-bottom:16px!important;background:linear-gradient(145deg,#111a30,#17152d 70%,#101b2b)!important}
+  .hero-copy{max-width:100%!important}
+  .hero-kicker{font-size:8px!important;letter-spacing:.13em!important}
+  .hero-copy h2{font-size:25px!important;margin:10px 0 8px!important;line-height:1.12!important}
+  .hero-copy p{font-size:12px!important;line-height:1.5!important;max-width:100%!important}
+  .hero-actions{gap:10px!important;margin-top:11px!important}
+  .hero-actions span{font-size:9px!important}
+  .hero-art{display:none!important}
+  .hero-glow{right:-100px!important;top:-100px!important;opacity:.55}
+  .nx-mobile-featured{display:block!important;position:relative;z-index:3;margin-top:16px;overflow:hidden}
+  .nx-featured-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;color:#cbd5e1;font:700 9px Orbitron,sans-serif;letter-spacing:.13em}
+  .nx-featured-dots{display:flex;gap:5px}
+  .nx-featured-dots i{width:5px;height:5px;border-radius:50%;background:#59647b;transition:all .3s}
+  .nx-featured-dots i.active{width:15px;border-radius:8px;background:#24b8ee}
+  .nx-featured-track{display:flex;gap:9px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0 1px 5px}
+  .nx-featured-track::-webkit-scrollbar{display:none}
+  .nx-featured-card{position:relative;flex:0 0 78%;height:126px;overflow:hidden;border-radius:13px;scroll-snap-align:start;border:1px solid rgba(160,190,255,.2);background:#101729;box-shadow:0 7px 18px rgba(0,0,0,.25)}
+  .nx-featured-card img{width:100%;height:100%;object-fit:cover;object-position:center 28%;display:block;transition:transform 5s ease;opacity:.88}
+  .nx-featured-card.is-active img{transform:scale(1.07)}
+  .nx-featured-card:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,9,20,.88),rgba(5,9,20,.22) 80%),linear-gradient(0deg,rgba(5,9,20,.5),transparent 60%)}
+  .nx-featured-caption{position:absolute;z-index:1;left:12px;right:10px;bottom:10px;color:#fff;font:700 13px Rajdhani,sans-serif;text-shadow:0 2px 7px #000}
+  .nx-featured-caption small{display:block;color:#b8d8e8;font:700 8px Orbitron,sans-serif;letter-spacing:.12em;margin-bottom:3px}
+  .catalog-toolbar{margin:0 1px 13px!important;padding-bottom:10px!important}
+  .catalog-toolbar h2{font-size:17px!important}
+  .catalog-chip{font-size:8px!important;padding:7px 8px!important}
+  #gamesGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  #gamesGrid .game-card{border-radius:13px!important}
+  #gamesGrid .cover-frame{aspect-ratio:264/350!important;padding:6px 6px 1px!important}
+  #gamesGrid .cover-frame img{border-radius:8px!important}
+  #gamesGrid .game-card .p-4{padding:9px!important}
+  #gamesGrid .game-card h3{font-size:11px!important;line-height:1.25!important;min-height:29px!important}
+  #gamesGrid .game-card p{font-size:9px!important}
+  #gamesGrid .game-card button{min-height:35px!important;font-size:9px!important;border-radius:9px!important}
+  footer{margin-top:30px!important;padding:22px 12px!important}
+  footer p{font-size:9px!important}
+}
+@media(min-width:681px){.nx-mobile-featured{display:none!important}.nx-mobile-loader{display:none!important}}
+@media(max-width:680px){
+ .nx-mobile-loader{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:17px;padding:25px;background:radial-gradient(ellipse at 50% 35%,#182747 0%,#0b1020 52%,#080b15 100%);opacity:1;visibility:visible;transition:opacity .45s ease,visibility .45s ease}
+ .nx-mobile-loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+ .nx-loader-brand{font:900 22px Orbitron,sans-serif;letter-spacing:.09em;color:#eaf7ff;text-shadow:0 0 18px rgba(28,165,255,.22);animation:nxBrandTint 7s ease-in-out infinite alternate}
+ .nx-loader-brand span{color:#39b9f2}
+ .nx-controller-wrap{width:190px;filter:drop-shadow(0 0 15px rgba(42,157,255,.22));animation:nxControllerFloat 2.8s ease-in-out infinite}
+ .nx-controller-wrap svg{display:block;width:100%;height:auto}
+ .nx-controller-wrap path{animation:nxControllerGlow 3.2s ease-in-out infinite alternate}
+ .nx-loader-bar{width:150px;height:3px;border-radius:9px;background:rgba(255,255,255,.12);overflow:hidden}
+ .nx-loader-bar span{display:block;width:40%;height:100%;border-radius:9px;background:linear-gradient(90deg,#278ef2,#9b80ff);animation:nxLoading 1.3s ease-in-out infinite}
+ .nx-mobile-loader p{margin:0;color:#aebbd0;font:600 10px Rajdhani,sans-serif;letter-spacing:.08em}
+ @keyframes nxControllerFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-9px) rotate(2deg)}}
+ @keyframes nxControllerGlow{from{stroke:#647da6}to{stroke:#37b8f2}}
+ @keyframes nxLoading{0%{transform:translateX(-110%)}100%{transform:translateX(270%)}}
+}
+@media(prefers-reduced-motion:reduce){.nx-mobile-loader,.nx-controller-wrap,.nx-loader-bar span,.nx-loader-brand,#adminSecretTrigger{animation:none!important;transition:none!important}}
+</style>
+
 </head>
 <body class="min-h-screen bg-[#0a0a16] text-white selection:bg-cyber-blue selection:text-black">
+    <div class="nx-mobile-loader" id="nxMobileLoader" aria-label="Cargando NEXORA PLAY">
+      <div class="nx-loader-brand">NEXORA <span>PLAY</span></div>
+      <div class="nx-controller-wrap" aria-hidden="true">
+        <svg viewBox="0 0 240 140" role="img">
+          <path d="M54 24C39 24 28 35 23 52L8 105c-4 14 11 25 23 17l38-26h102l38 26c12 8 27-3 23-17l-15-53c-5-17-16-28-31-28H54Z" fill="#20283b" stroke="#7c91b9" stroke-width="4"/>
+          <path d="M55 34h130c12 0 20 8 24 21l10 34-37-24H58L21 89l10-34c4-13 12-21 24-21Z" fill="#303b55"/>
+          <path d="M48 55v34M31 72h34" stroke="#d8e2f5" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="164" cy="58" r="8" fill="#32a8ff"/><circle cx="185" cy="76" r="8" fill="#9c7bff"/>
+          <circle cx="164" cy="91" r="8" fill="#9c7bff"/><circle cx="143" cy="76" r="8" fill="#32a8ff"/>
+          <circle cx="91" cy="91" r="17" fill="#101827" stroke="#7184a7" stroke-width="4"/>
+          <circle cx="91" cy="91" r="7" fill="#35445f"/>
+          <circle cx="149" cy="105" r="17" fill="#101827" stroke="#7184a7" stroke-width="4"/>
+          <circle cx="149" cy="105" r="7" fill="#35445f"/>
+          <rect x="108" y="43" width="24" height="7" rx="3.5" fill="#111827"/>
+        </svg>
+      </div>
+      <div class="nx-loader-bar"><span></span></div>
+      <p>Preparando tu catálogo de juegos…</p>
+    </div>
 
     <!-- HEADER -->
     <header class="sticky top-0 z-50 bg-[#0a0a16]/90 backdrop-blur-md border-b border-cyber-border">
@@ -180,6 +278,10 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
             </div>
             <div class="hero-art" aria-hidden="true"><div class="hero-ring ring-one"></div><div class="hero-ring ring-two"></div><i class="fa-solid fa-gamepad"></i><span class="hero-art-label">PLAY<br>WITHOUT<br>LIMITS</span></div>
             <div class="hero-glow"></div>
+            <div class="nx-mobile-featured" id="nxMobileFeatured" aria-label="Juegos destacados">
+              <div class="nx-featured-heading"><span>DESTACADOS</span><span class="nx-featured-dots" id="nxFeaturedDots"></span></div>
+              <div class="nx-featured-track" id="nxFeaturedTrack"></div>
+            </div>
           </div>
 
           <div class="catalog-toolbar">
@@ -526,6 +628,7 @@ footer{border-color:rgba(0,243,255,.15)!important;background:rgba(12,12,27,.72)!
                     games.push({ id:localId, title:String(row.nombre||'Juego'), genre:String(row.categoria||'Otros'), size:Number(row.tamano_gb)||0, cover:String(row.caratula_url||''), desc:String(row.descripcion||'Juego agregado al catálogo NEXORA PLAY.') });
                 });
                 filterGames();
+                nxInitMobileCarousel();
             } catch (e) { console.warn('No se pudieron cargar juegos compartidos:',e); }
         }
         function nxFileToDataUrl(file) {
@@ -896,6 +999,73 @@ ${list}
         calculateStorage();
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', nxLoadRemoteGames, {once:true});
         else nxLoadRemoteGames();
-    </script>
+    
+        // Complemento visual móvil: carrusel de carátulas reales y pantalla de carga.
+        function nxInitMobileCarousel() {
+            const track = document.getElementById('nxFeaturedTrack');
+            const dots = document.getElementById('nxFeaturedDots');
+            if (!track || !dots || !Array.isArray(games) || !games.length) return;
+            const featured = games.filter(g => g && g.cover).slice(0, 8);
+            if (!featured.length) return;
+            track.innerHTML = '';
+            dots.innerHTML = '';
+            featured.forEach((game, index) => {
+                const card = document.createElement('div');
+                card.className = 'nx-featured-card' + (index === 0 ? ' is-active' : '');
+                const img = document.createElement('img');
+                img.loading = index < 2 ? 'eager' : 'lazy';
+                img.alt = 'Imagen destacada: ' + game.title;
+                img.src = getGameCover(game) || game.cover;
+                const caption = document.createElement('div');
+                caption.className = 'nx-featured-caption';
+                const small = document.createElement('small');
+                small.textContent = 'JUEGO DESTACADO';
+                const title = document.createElement('span');
+                title.textContent = game.title;
+                caption.append(small, title);
+                card.append(img, caption);
+                track.append(card);
+                const dot = document.createElement('i');
+                if (index === 0) dot.className = 'active';
+                dots.append(dot);
+            });
+            let active = 0;
+            const cards = Array.from(track.children);
+            const indicators = Array.from(dots.children);
+            const activate = (index, scroll = true) => {
+                active = (index + cards.length) % cards.length;
+                cards.forEach((card, i) => card.classList.toggle('is-active', i === active));
+                indicators.forEach((dot, i) => dot.classList.toggle('active', i === active));
+                if (scroll) cards[active].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+            };
+            if (window.nxFeaturedTimer) clearInterval(window.nxFeaturedTimer);
+            window.nxFeaturedTimer = setInterval(() => activate(active + 1), 4200);
+            track.addEventListener('scroll', () => {
+                const center = track.scrollLeft + track.clientWidth / 2;
+                let nearest = 0, distance = Infinity;
+                cards.forEach((card, i) => {
+                    const d = Math.abs(card.offsetLeft + card.offsetWidth / 2 - center);
+                    if (d < distance) { distance = d; nearest = i; }
+                });
+                activate(nearest, false);
+            }, {passive:true});
+        }
+        function nxHideMobileLoader() {
+            const loader = document.getElementById('nxMobileLoader');
+            if (loader) {
+                loader.classList.add('is-hidden');
+                setTimeout(() => loader.remove(), 550);
+            }
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                nxInitMobileCarousel();
+                setTimeout(nxHideMobileLoader, 900);
+            }, {once:true});
+        } else {
+            nxInitMobileCarousel();
+            setTimeout(nxHideMobileLoader, 900);
+        }
+</script>
 </body>
 </html>
